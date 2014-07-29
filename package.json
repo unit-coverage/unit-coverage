@@ -1,0 +1,22 @@
+{
+  "name": "separated-coverage",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Marat Dulin",
+  "license": "MIT",
+  "bin": {
+    "separated-coverage": "bin/separated-coverage.js"
+  },
+  "dependencies": {
+    "chalk": "^0.5.1",
+    "enb-source-map": "^1.3.1",
+    "escodegen": "^1.3.3",
+    "escope": "^1.0.1",
+    "esprima": "^1.2.2",
+    "estraverse": "^1.5.1",
+    "html-entities": "^1.0.10",
+    "jade": "^1.5.0",
+    "minimatch": "^0.4.0"
+  }
+}

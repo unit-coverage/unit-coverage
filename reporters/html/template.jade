@@ -1,0 +1,205 @@
+doctype html
+html
+  head
+    title Coverage report
+    meta(charset='utf-8')
+    style.
+      body, html {
+        margin: 0;
+        height: 100%;
+        background: #3C3F41;
+      }
+
+      .tree {
+        float: left;
+        width: 20%;
+        height: 100%;
+        overflow: auto;
+        font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        padding-right: 10px;
+        box-sizing: border-box;
+        border-right: #262729 1px solid;
+        position: fixed;
+      }
+
+      .thread-name, .thread-link {
+        color: #aeb4b4;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .thread-name {
+        color: gray;
+      }
+
+      .thread-selected .thread-link-name {
+        color: #45a7b5;
+      }
+
+      .thread-items {
+        margin-left: 20px;
+      }
+
+      .thread-dir, .thread-file {
+        width: 15px;
+        height: 15px;
+        display: inline-block;
+        background: no-repeat center center;
+        opacity: 0.5;
+        margin-right: 5px;
+        top: 2px;
+      }
+
+      .thread-dir {
+        background-image: url(data:image/gif;base64,R0lGODlhDgAMAHcAACH5BAEAAAIALAAAAAAOAAwAh9OIgOG8uPDw8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgrAAEIHBhAgMGDAgYqLIgwocKHECNGbNhQIUWEFi8azKiR40WPFCWKHDkwIAA7);
+      }
+
+      .thread-file {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAPCAMAAAAI/bVFAAADAFBMVEU+QEJMR0WBYFKCYVKcnJyrq6usrKzGgmLOzs7f39/zl2z19fX///8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8nRl7AAABAHRSTlP///////////////8A////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////m2mkrAAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAd0SU1FB9wMGQsNM0fic1oAAAAHdEVYdEF1dGhvcgCprsxIAAAADHRFWHREZXNjcmlwdGlvbgATCSEjAAAACnRFWHRDb3B5cmlnaHQArA/MOgAAAA50RVh0Q3JlYXRpb24gdGltZQA19w8JAAAACXRFWHRTb2Z0d2FyZQBdcP86AAAAC3RFWHREaXNjbGFpbWVyALfAtI8AAAAIdEVYdFdhcm5pbmcAwBvmhwAAAAd0RVh0U291cmNlAPX/g+sAAAAIdEVYdENvbW1lbnQA9syWvwAAAAZ0RVh0VGl0bGUAqO7SJwAAAEdJREFUCJllzYEOgCAIBNCzKBH5/+9NFBnVbWw82ADkYR3B1sVLNlTqNyeRNVuqrS1JxAU5gaRS864aQ4Mu4Jgl/5uvf5GvHm/RBckCfu/CAAAAAElFTkSuQmCC);
+      }
+
+      .thread-level {
+        color: gray;
+        font-size: 10px;
+        margin-left: 10px;
+      }
+
+      .thread-high .thread-level {
+        color: #66B029;
+      }
+
+      .thread-medium .thread-level {
+        color: #B28C00;
+      }
+
+      .thread-low .thread-level {
+        color: #993300;
+      }
+
+      .source-file {
+        background: #2B2B2B;
+        color: #E6E1DC;
+        white-space: pre;
+        font-family: monaco, monospaced, Courier, monospace;
+        font-size: 13px;
+        counter-reset: file-line-counter;
+        position: relative;
+        display: none;
+        min-height: 100%;
+        width: 80%;
+        margin-left: 20%;
+      }
+
+      .source-file-info {
+        z-index: 1;
+        position: relative;
+        background: #3C3F41;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .source-file:before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 0;
+        top: 0;
+        left: 45px;
+        border-right: 1px rgba(255, 255, 255, 0.5) solid;
+      }
+
+      .source-file:target {
+        display: block;
+      }
+
+      .line:before {
+        content: counter(file-line-counter);
+        counter-increment: file-line-counter;
+        display: inline-block;
+        width: 40px;
+        margin-right: 15px;
+        text-align: right;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .line.uncovered {
+        background: rgba(83, 43, 46, 0.50);
+      }
+
+      .line.covered {
+        background: rgba(66, 95, 68, 0.50);
+      }
+
+      .Punctuator {
+        color: #CC7833;
+      }
+
+      .Keyword, .Boolean, .Null {
+        color: #CC7833;
+      }
+
+      .String, .RegularExpression, .Numeric {
+        color: #A5C261;
+      }
+
+      .Block, .Line {
+        color: #BC9458;
+      }
+
+      .Variable {
+        color: #64A2A2;
+      }
+
+      .ImplicitGlobalVariable {
+        color: #D0D0FF;
+      }
+
+      .Parameter {
+        border-bottom: #E6E1DC 1px solid;
+      }
+
+      .Field {
+        color: #979748;
+      }
+
+      .FunctionName {
+        color: #FFC66D;
+      }
+  body
+    mixin writeTreeThread(obj)
+      .thread
+        if obj.isFile
+          a.thread-link(href=('#' + obj.path.replace(/[^a-z0-9]/g, '_')), class='thread-' + obj.status)
+            span.thread-file
+            span.thread-link-name=obj.name
+            span.thread-level=obj.level
+        else
+          span.thread-name(class='thread-' + obj.status)
+            span.thread-dir
+            =obj.name || '—'
+            span.thread-level=obj.level
+        .thread-items
+          each node in obj.nodes
+            mixin writeTreeThread(node)
+    .tree
+      mixin writeTreeThread(tree)
+    .source
+      each file in files
+        .source-file(id=file.filename.replace(/[^a-z0-9]/g, '_'))
+          .source-file-info
+            .source-file-name=file.name
+          each line in file.lines
+            .line(class=line.state) !{line.code}
+
+    script.
+      function updateHash() {
+          [].forEach.call(document.getElementsByClassName('thread-link'), function (node) {
+              console.log(node.href);
+              node.className = (node.getAttribute('href') === location.hash ?
+                  node.className + ' thread-selected' :
+                  node.className.replace(/thread\-selected/g, ''));
+          });
+      }
+      window.onhashchange = updateHash;
+      updateHash();
