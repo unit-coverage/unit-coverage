@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 var fs = require('fs');
 var path = require('path');
 var childProcess = require('child_process');
@@ -8,10 +7,10 @@ var args = process.argv.slice(2);
 var command = args.shift();
 
 switch (command) {
-    case "report":
+    case 'report':
         var inputParams = parseArguments(args);
-        var reporterName = inputParams['reporter'] || 'tree';
-        var input = inputParams['input'];
+        var reporterName = inputParams.reporter || 'tree';
+        var input = inputParams.input;
         if (!input) {
             throw new Error('"input" argument is not specified');
         }
@@ -19,7 +18,7 @@ switch (command) {
             JSON.parse(fs.readFileSync(input, 'utf8'))
         );
         break;
-    case "run":
+    case 'run':
         args.push('-k', path.resolve(__dirname, '../hooks/phantom-dump-coverage.js'));
         childProcess.spawn(args.shift(), args, {stdio: [process.stdin, process.stdout, process.stderr]}).on(
             'close',
@@ -27,7 +26,7 @@ switch (command) {
                 process.exit(code);
             });
         break;
-    case "run-mocha":
+    case 'run-mocha':
         var preMochaArgs = [];
         var argVal;
         while ((argVal = args.shift()) !== undefined) {
