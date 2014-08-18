@@ -1,25 +1,30 @@
 var mapTree = require('../lib/utils/map-tree');
 var chalk = require('chalk');
 
-module.exports = function (map) {
-    outputTree(mapTree.buildTree(map), 0)
+/**
+ * @param {CoverageInfo} coverageInfo
+ */
+module.exports = function (coverageInfo) {
+    outputTree(mapTree.buildTree(coverageInfo), 0);
+    console.log('');
+    require('./summary')(coverageInfo);
 };
 
-function outputTree(tree, level) {
-    if (tree.name) {
-        console.log((new Array(level + 1)).join('  ') +
-            (tree.isFile ? chalk.green(tree.name) : chalk.blue(tree.name)) + ' ' +
-            (tree.lines ? formatNumber(Math.round(tree.coveredLines * 100 / tree.lines)) : '')
+/**
+ * @param {Node} node
+ * @param {Number} level
+ */
+function outputTree(node, level) {
+    if (node.getName()) {
+        console.log(
+            (new Array(level + 1)).join('  ') +
+            (node.isFile() ? chalk.green(node.getName()) : chalk.blue(node.getName())) + ' ' +
+            formatNumber(Math.round(node.getSummary().calcTotalCoverage() * 100))
         );
     }
-    Object.keys(tree.nodes).forEach(function (key) {
-        outputTree(tree.nodes[key], level + 1);
+    node.getSubNodes().forEach(function (subNode) {
+        outputTree(subNode, level + 1);
     });
-    if (!tree.name) {
-        console.log(chalk.blue('Total') + ' ' +
-            (tree.lines ? formatNumber(Math.round(tree.coveredLines * 100 / tree.lines)) : '')
-        );
-    }
 }
 
 function formatNumber(num) {

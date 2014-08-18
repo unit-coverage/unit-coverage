@@ -1,0 +1,55 @@
+var Instrumenter = require('../../lib/instrumenter');
+var BasenameFileSet = require('../../lib/basename-file-set');
+var utils = require('./../_utils');
+var vm = require('vm');
+
+var CoverageInfo = require('../../lib/obj/coverage-info');
+var teamcityReporter = require('../../reporters/teamcity');
+
+describe('reporters', function () {
+    describe('teamcity', function () {
+        var instrumenter;
+
+        beforeEach(function () {
+            instrumenter = new Instrumenter(new BasenameFileSet(), __dirname, {
+                varPrefix: '___', varPostfix: '___'
+            });
+        });
+
+        afterEach(function () {
+            utils.cleanupGlobal();
+        });
+
+        function run(code) {
+            vm.runInThisContext(instrumenter.instrument(code.join('\n'), __dirname + '/code.js'));
+            return CoverageInfo.fromJSON(utils.getMap());
+        }
+
+        it('should build line summary', function () {
+            var coverageInfo = run([
+                'function f(x) {',
+                    'switch (x) {',
+                        'case 0:',
+                            'x++;',
+                            'break;',
+                        'case 1:',
+                            'break;',
+                    '}',
+                '}',
+                'function z(){};',
+                'f(0);'
+            ]);
+
+            utils.captureConsole();
+            teamcityReporter(coverageInfo);
+            utils.uncolor(utils.endCaptureConsole()).trim().should.equal([
+                '##teamcity[blockOpened name=\'Code Coverage Summary\']',
+                '##teamcity[buildStatisticValue key=\'CodeCoverageB\' value=\'85.71\']',
+                '##teamcity[buildStatisticValue key=\'CodeCoverageAbsLCovered\' value=\'6\']',
+                '##teamcity[buildStatisticValue key=\'CodeCoverageAbsLTotal\' value=\'7\']',
+                '##teamcity[buildStatisticValue key=\'CodeCoverageL\' value=\'85.71\']',
+                '##teamcity[blockClosed name=\'Code Coverage Summary\']'
+            ].join('\n'));
+        });
+    });
+});

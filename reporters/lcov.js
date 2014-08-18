@@ -1,20 +1,17 @@
 var fs = require('fs');
 
-module.exports = function (map) {
-    Object.keys(map).forEach(function (filename) {
-        var data = map[filename];
-        write('TN', data.setName);
-        write('SF', fs.realpathSync(filename));
+module.exports = function (coverageInfo) {
+    coverageInfo.getFileInfos().forEach(/** @param {FileInfo} fileInfo */ function (fileInfo) {
+        write('TN', fileInfo.getTestName());
+        write('SF', process.cwd() + '/' + fileInfo.getFilename());
 
-        var lines = data.lines;
-        var lineKeys = Object.keys(lines);
-        lineKeys.forEach(function (lineNumber) {
-            write('DA', lineNumber + ',' + lines[lineNumber]);
+        var stat = fileInfo.getStatInfo();
+        var summary = stat.calcSummary();
+        stat.getLineNumbers().forEach(function (lineNumber) {
+            write('DA', lineNumber + ',' + stat.getLineCallCount(lineNumber));
         });
-        write('LF', lineKeys.length);
-        write('LH', lineKeys.reduce(function (res, key) {
-            return res + (lines[key] > 0 ? 1 : 0);
-        }, 0));
+        write('LF', summary.getLineCount());
+        write('LH', summary.getCoveredLineCount());
 
         writeEndOfRecord();
     });

@@ -89,6 +89,7 @@ html
         min-height: 100%;
         width: 80%;
         margin-left: 20%;
+        overflow-x: auto;
       }
 
       .source-file-info {
@@ -167,21 +168,23 @@ html
         color: #FFC66D;
       }
   body
-    mixin writeTreeThread(obj)
+    mixin writeTreeThread(node)
       .thread
-        if obj.isFile
-          a.thread-link(href=('#' + obj.path.replace(/[^a-z0-9]/g, '_')), class='thread-' + obj.status)
+        - var level = Math.round(node.getSummary().calcTotalCoverage() * 100);
+        - var status = level > 80 ? 'high' : (level > 30 ? 'medium' : 'low');
+        if node.isFile()
+          a.thread-link(href=('#' + node.getPath().replace(/[^a-z0-9]/g, '_')), class='thread-' + status)
             span.thread-file
-            span.thread-link-name=obj.name
-            span.thread-level=obj.level
+            span.thread-link-name=node.getName()
+            span.thread-level=level + '%'
         else
-          span.thread-name(class='thread-' + obj.status)
+          span.thread-name(class='thread-' + status)
             span.thread-dir
-            =obj.name || '—'
-            span.thread-level=obj.level
+            =node.getName() || '—'
+            span.thread-level=level+ '%'
         .thread-items
-          each node in obj.nodes
-            mixin writeTreeThread(node)
+          each sn in node.getSubNodes()
+            mixin writeTreeThread(sn)
     .tree
       mixin writeTreeThread(tree)
     .source

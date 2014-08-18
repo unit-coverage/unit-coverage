@@ -6,16 +6,15 @@ var childProcess = require('child_process');
 var args = process.argv.slice(2);
 var command = args.shift();
 
+var CoverageInfo = require('../lib/obj/coverage-info');
+
 switch (command) {
     case 'report':
         var inputParams = parseArguments(args);
         var reporterName = inputParams.reporter || 'tree';
-        var input = inputParams.input;
-        if (!input) {
-            throw new Error('"input" argument is not specified');
-        }
+        var input = inputParams.input || 'coverage.json';
         require('../reporters/' + reporterName)(
-            JSON.parse(fs.readFileSync(input, 'utf8'))
+            CoverageInfo.fromJSON(JSON.parse(fs.readFileSync(input, 'utf8')))
         );
         break;
     case 'run':
@@ -37,11 +36,13 @@ switch (command) {
             }
         }
         var params = parseArguments(preMochaArgs);
+        params.bin = params.bin || 'node_modules/.bin/mocha';
         var mochaBin = fs.realpathSync(params.bin);
-        var mochaArgs = args.concat('--compilers', 'js:separated-coverage/lib/require-replacement');
+        var mochaArgs = args.concat('--compilers', 'js:' + path.resolve(__dirname, '../lib/require-replacement.js'));
 
         process.env.tests = params.tests;
         process.env.sources = params.sources;
+
         childProcess.spawn(
             mochaBin,
             mochaArgs,

@@ -1,18 +1,19 @@
 var mapTree = require('../lib/utils/map-tree');
 
-module.exports = function (map) {
-    var tree = mapTree.buildTree(map);
+/**
+ * @param {CoverageInfo} coverageInfo
+ */
+module.exports = function (coverageInfo) {
+    var summary = coverageInfo.calcSummary();
 
-    var pecentage = tree.lines ? tree.coveredLines * 100 / tree.lines : 0;
-
-    pecentage = pecentage.toFixed(2);
+    var linePercentage = (summary.calcLineCoverage() * 100).toFixed(2);
 
     console.log('##teamcity[blockOpened name=\'Code Coverage Summary\']');
 
-    console.log(formatKey(pecentage, 'CodeCoverageB'));
-    console.log(formatKey(tree.coveredLines, 'CodeCoverageAbsLCovered'));
-    console.log(formatKey(tree.lines, 'CodeCoverageAbsLTotal'));
-    console.log(formatKey(pecentage, 'CodeCoverageL'));
+    console.log(formatKey(linePercentage, 'CodeCoverageB'));
+    console.log(formatKey(summary.getCoveredLineCount(), 'CodeCoverageAbsLCovered'));
+    console.log(formatKey(summary.getLineCount(), 'CodeCoverageAbsLTotal'));
+    console.log(formatKey(linePercentage, 'CodeCoverageL'));
 
     console.log('##teamcity[blockClosed name=\'Code Coverage Summary\']');
 };

@@ -1,9 +1,12 @@
-var mapTree = require('../lib/utils/map-tree');
 var chalk = require('chalk');
 
-module.exports = function (map) {
-    var tree = mapTree.buildTree(map);
-    console.log(chalk.blue('Total') + ' ' + (tree.lines ? formatNumber(Math.round(tree.coveredLines * 100 / tree.lines)) : ''));
+/**
+ * @param {CoverageInfo} coverageInfo
+ */
+module.exports = function (coverageInfo) {
+    var summary = coverageInfo.calcSummary();
+    console.log(chalk.blue('Lines') + ' ' + formatNumber(Math.round(summary.calcLineCoverage() * 100)));
+    console.log(chalk.blue('Functions') + ' ' + formatNumber(Math.round(summary.calcFunctionCoverage() * 100)));
 };
 
 function formatNumber(num) {

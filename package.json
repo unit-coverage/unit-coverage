@@ -22,11 +22,17 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "jscs": "^1.5.9",
-    "mocha": "^1.21.4"
+    "mocha": "^1.21.4",
+    "strip-ansi": "^2.0.0"
   },
   "scripts": {
     "test": "npm run lint && npm run unit",
     "unit": "jscs -p yandex lib test hooks bin",
-    "lint": "mocha -R spec test"
+    "lint": "mocha -R spec --recursive lib test",
+    "cov-build": "bin/separated-coverage.js run-mocha --sources 'lib/**,reporters/**' --tests 'test/**' -- --recursive lib test",
+    "cov-rep-html": "bin/separated-coverage.js report --reporter html > coverage.html",
+    "cov-rep-tree": "bin/separated-coverage.js report --reporter tree",
+    "coverage": "npm run cov-build && npm run cov-rep-tree",
+    "coverage-html": "npm run cov-build && npm run cov-rep-html"
   }
 }
