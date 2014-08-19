@@ -3,7 +3,7 @@
     var map = __MAP__;
     if (global.__MAP_VAR_NAME__) {
         for (var i in map) {
-            if (map.hasOwnProperty(i)) {
+            if (map.hasOwnProperty(i) && !global.__MAP_VAR_NAME__.hasOwnProperty(i)) {
                 global.__MAP_VAR_NAME__[i] = map[i];
             }
         }
