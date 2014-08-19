@@ -48,6 +48,9 @@ describe('reporters', function () {
                 '##teamcity[buildStatisticValue key=\'CodeCoverageAbsLCovered\' value=\'6\']',
                 '##teamcity[buildStatisticValue key=\'CodeCoverageAbsLTotal\' value=\'7\']',
                 '##teamcity[buildStatisticValue key=\'CodeCoverageL\' value=\'85.71\']',
+                '##teamcity[buildStatisticValue key=\'CodeCoverageAbsMCovered\' value=\'1\']',
+                '##teamcity[buildStatisticValue key=\'CodeCoverageAbsMTotal\' value=\'2\']',
+                '##teamcity[buildStatisticValue key=\'CodeCoverageM\' value=\'50.00\']',
                 '##teamcity[blockClosed name=\'Code Coverage Summary\']'
             ].join('\n'));
         });
