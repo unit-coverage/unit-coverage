@@ -43,7 +43,7 @@ describe('reporters', function () {
             utils.captureConsole();
             teamcityReporter(coverageInfo);
             utils.uncolor(utils.endCaptureConsole()).trim().should.equal([
-                '##teamcity[blockOpened name=\'Code Coverage Summary\']',
+                '##teamcity[blockOpened name=\'Code Coverage SummaryInfo\']',
                 '##teamcity[buildStatisticValue key=\'CodeCoverageB\' value=\'85.71\']',
                 '##teamcity[buildStatisticValue key=\'CodeCoverageAbsLCovered\' value=\'6\']',
                 '##teamcity[buildStatisticValue key=\'CodeCoverageAbsLTotal\' value=\'7\']',
@@ -51,7 +51,7 @@ describe('reporters', function () {
                 '##teamcity[buildStatisticValue key=\'CodeCoverageAbsMCovered\' value=\'1\']',
                 '##teamcity[buildStatisticValue key=\'CodeCoverageAbsMTotal\' value=\'2\']',
                 '##teamcity[buildStatisticValue key=\'CodeCoverageM\' value=\'50.00\']',
-                '##teamcity[blockClosed name=\'Code Coverage Summary\']'
+                '##teamcity[blockClosed name=\'Code Coverage SummaryInfo\']'
             ].join('\n'));
         });
     });

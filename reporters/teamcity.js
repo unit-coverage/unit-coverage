@@ -4,7 +4,7 @@
 module.exports = function (coverageInfo) {
     var summary = coverageInfo.calcSummary();
 
-    console.log('##teamcity[blockOpened name=\'Code Coverage Summary\']');
+    console.log('##teamcity[blockOpened name=\'Code Coverage SummaryInfo\']');
 
     var linePercentage = (summary.calcLineCoverage() * 100).toFixed(2);
 
@@ -18,7 +18,7 @@ module.exports = function (coverageInfo) {
     console.log(formatKey(summary.getFunctionCount(), 'CodeCoverageAbsMTotal'));
     console.log(formatKey((summary.calcFunctionCoverage() * 100).toFixed(2), 'CodeCoverageM'));
 
-    console.log('##teamcity[blockClosed name=\'Code Coverage Summary\']');
+    console.log('##teamcity[blockClosed name=\'Code Coverage SummaryInfo\']');
 };
 
 function formatKey(value, teamcityVar) {
