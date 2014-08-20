@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "author": "Marat Dulin",
+  "repository": "https://github.com/mdevils/separated-coverage",
   "license": "MIT",
   "bin": {
     "separated-coverage": "bin/separated-coverage.js"
@@ -21,17 +22,19 @@
   },
   "devDependencies": {
     "chai": "^1.9.1",
+    "coveralls": "^2.11.1",
     "jscs": "^1.5.9",
     "mocha": "^1.21.4",
     "strip-ansi": "^2.0.0"
   },
   "scripts": {
-    "test": "npm run lint && npm run unit",
+    "test": "npm run lint && npm run unit && npm run cov-build && npm run cov-rep-lcov | ./node_modules/coveralls/bin/coveralls.js",
     "unit": "jscs -p yandex lib test hooks bin",
     "lint": "mocha -R spec --recursive lib test",
     "cov-build": "bin/separated-coverage.js run-mocha --sources 'lib/**,reporters/**' --tests 'test/**' -- --recursive lib test",
     "cov-rep-html": "bin/separated-coverage.js report --reporter html > coverage.html",
     "cov-rep-tree": "bin/separated-coverage.js report --reporter tree",
+    "cov-rep-lcov": "bin/separated-coverage.js report --reporter lcov",
     "coverage": "npm run cov-build && npm run cov-rep-tree",
     "coverage-html": "npm run cov-build && npm run cov-rep-html"
   }
