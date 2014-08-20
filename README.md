@@ -1,4 +1,4 @@
-# separated-coverage
+# separated-coverage [![Build Status](https://travis-ci.org/mdevils/separated-coverage.svg?branch=master)](https://travis-ci.org/mdevils/separated-coverage) [![Coverage Status](https://coveralls.io/repos/mdevils/separated-coverage/badge.png?branch=master)](https://coveralls.io/r/mdevils/separated-coverage?branch=master)
 
 Coverage toolkit designed to collect coverage information separately for each test.
 
