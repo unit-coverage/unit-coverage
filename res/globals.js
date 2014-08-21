@@ -1,3 +1,4 @@
+/*jshint undef: false*/
 (function () {
     var global = this;
     var map = __MAP__;

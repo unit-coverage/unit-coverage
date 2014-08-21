@@ -2,7 +2,8 @@
 
 module.exports = {
     afterEnd: function (reporter) {
-        result = reporter.page.evaluate(new Function(
+        /*jshint evil: true*/
+        var result = reporter.page.evaluate(new Function(
             'var variable = window.__sepCoverageMap__;' +
             'return typeof variable === "object" ? JSON.stringify(variable) : variable;'
         ));
