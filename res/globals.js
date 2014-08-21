@@ -13,8 +13,11 @@
 
         // Switch between tests
         var currentTestName;
-        global.__SWITCH_TEST_FUNCTION_NAME__ = function (newTestName) {
+        global.__BEGIN_TEST_FUNCTION_NAME__ = function (newTestName) {
             currentTestName = newTestName;
+        };
+        global.__END_TEST_FUNCTION_NAME__ = function () {
+            currentTestName = '__NO_TEST_PLACEHOLDER__';
         };
 
         // Counters
@@ -89,10 +92,8 @@
                 },
                 initialize: global.__INIT_FUNCTION_NAME__,
                 save: global.__SAVE_FUNCTION_NAME,
-                beginTest: global.__SWITCH_TEST_FUNCTION_NAME__,
-                endTest: function () {
-                    global.__SWITCH_TEST_FUNCTION_NAME__('__NO_TEST_PLACEHOLDER__');
-                }
+                beginTest: global.__BEGIN_TEST_FUNCTION_NAME__,
+                endTest: global.__END_TEST_FUNCTION_NAME__
             };
         }
     }
