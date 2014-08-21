@@ -29,8 +29,8 @@
   },
   "scripts": {
     "test": "npm run lint && npm run unit && npm run cov-build && npm run cov-rep-lcov | ./node_modules/coveralls/bin/coveralls.js",
-    "unit": "jscs -p yandex lib test hooks bin",
-    "lint": "mocha -R spec --recursive lib test",
+    "lint": "jscs -p yandex lib test hooks bin",
+    "unit": "mocha -R spec --recursive lib test",
     "cov-build": "bin/separated-coverage.js run-mocha --sources 'lib/**,reporters/**' --tests 'test/**' -- --recursive lib test",
     "cov-rep-html": "bin/separated-coverage.js report --reporter html > coverage.html",
     "cov-rep-tree": "bin/separated-coverage.js report --reporter tree",

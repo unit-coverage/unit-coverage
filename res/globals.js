@@ -27,6 +27,15 @@
                 map[filename].stat.functions[functionId] = (map[filename].stat.functions[functionId] || 0) + 1;
             }
         };
+        global.__BRANCH_COUNT_FUNCTION_NAME__ = function (filename, branchId, threadId, altThreadId, condition) {
+            if (!currentTestName || map[filename].testName === currentTestName) {
+                if (arguments.length === 5 && !condition) {
+                    threadId = altThreadId;
+                }
+                map[filename].stat.branches[branchId][threadId]++;
+            }
+            return condition;
+        };
 
         // Remove init coverage data
         var initialized = false;

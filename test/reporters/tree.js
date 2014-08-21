@@ -43,7 +43,9 @@ describe('reporters/tree', function () {
             '      f.js 50%\n' +
             '\n' +
             'Lines 100%\n' +
-            'Functions 0%\n'
+            'Functions 0%\n' +
+            'Branches 100%\n' +
+            'Total 75%\n'
         );
     });
 });

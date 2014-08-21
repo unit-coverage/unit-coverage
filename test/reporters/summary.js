@@ -36,13 +36,14 @@ describe('reporters/summary', function () {
                 '}',
             '}',
             'function z(){};',
-            'f(0);'
+            'f(0);',
+            'f(1);'
         ]);
 
         utils.captureConsole();
         summaryReporter(coverageInfo);
         utils.uncolor(utils.endCaptureConsole()).trim().should.equal(
-            'Lines 86%\nFunctions 50%'
+            'Lines 100%\nFunctions 50%\nBranches 100%\nTotal 91%'
         );
     });
 });
