@@ -1,4 +1,6 @@
-# separated-coverage [![Build Status](https://travis-ci.org/mdevils/separated-coverage.svg?branch=master)](https://travis-ci.org/mdevils/separated-coverage) [![Coverage Status](https://coveralls.io/repos/mdevils/separated-coverage/badge.png?branch=master)](https://coveralls.io/r/mdevils/separated-coverage?branch=master) [![Dependency Status](https://david-dm.org/mdevils/separated-coverage.svg)](https://david-dm.org/mdevils/separated-coverage) [![devDependency Status](https://david-dm.org/mdevils/separated-coverage/dev-status.svg)](https://david-dm.org/mdevils/separated-coverage#info=devDependencies)
+# separated-coverage
+
+[![Build Status](https://travis-ci.org/mdevils/separated-coverage.svg?branch=master)](https://travis-ci.org/mdevils/separated-coverage) [![Coverage Status](https://coveralls.io/repos/mdevils/separated-coverage/badge.png?branch=master)](https://coveralls.io/r/mdevils/separated-coverage?branch=master) [![Dependency Status](https://david-dm.org/mdevils/separated-coverage.svg)](https://david-dm.org/mdevils/separated-coverage) [![devDependency Status](https://david-dm.org/mdevils/separated-coverage/dev-status.svg)](https://david-dm.org/mdevils/separated-coverage#info=devDependencies)
 
 Coverage toolkit designed to collect coverage information separately for each test.
 
