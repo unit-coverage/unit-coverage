@@ -1,6 +1,6 @@
 {
   "name": "separated-coverage",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "",
   "main": "index.js",
   "author": "Marat Dulin",
@@ -33,13 +33,22 @@
     "strip-ansi": "^2.0.0"
   },
   "separated-coverage": {
-      "common": [
-          "-s", "**/*.js",
-          "-e", "node_modules/**",
-          "-t", "test/**",
-          "-a", "bin", "-a", "index.js",
-          "--", "--recursive", "lib", "test"
-      ]
+    "common": [
+      "-s",
+      "**/*.js",
+      "-e",
+      "node_modules/**",
+      "-t",
+      "test/**",
+      "-a",
+      "bin",
+      "-a",
+      "index.js",
+      "--",
+      "--recursive",
+      "lib",
+      "test"
+    ]
   },
   "scripts": {
     "test": "npm run lint && npm run unit",
