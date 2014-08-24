@@ -59,6 +59,7 @@
     "travis": "npm run test && bin/separated-coverage.js run -q -p common -r lcov | ./node_modules/coveralls/bin/coveralls.js"
   },
   "files": [
+    "index.js",
     "hooks",
     "bin",
     "lib",
