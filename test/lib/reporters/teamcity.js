@@ -37,9 +37,7 @@ describe('reporters/teamcity', function () {
             'f(0);'
         ]);
 
-        utils.captureConsole();
-        teamcityReporter(coverageInfo);
-        utils.uncolor(utils.endCaptureConsole()).trim().should.equal([
+        teamcityReporter(coverageInfo).trim().should.equal([
             '##teamcity[blockOpened name=\'Code Coverage SummaryInfo\']',
             '##teamcity[buildStatisticValue key=\'CodeCoverageB\' value=\'85.71\']',
             '##teamcity[buildStatisticValue key=\'CodeCoverageAbsLCovered\' value=\'6\']',

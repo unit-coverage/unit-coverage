@@ -4,8 +4,6 @@ var fs = require('fs');
 
 require('chai').should();
 
-var consoleContent = '';
-var consoleLog = console.log;
 var fsReadFileSync = fs.readFileSync;
 
 module.exports = {
@@ -20,16 +18,6 @@ module.exports = {
     },
     getMap: function () {
         return global.___sepCoverage___.getCoverageData();
-    },
-    captureConsole: function () {
-        consoleContent = '';
-        console.log = function (str) {
-            consoleContent += str + '\n';
-        };
-    },
-    endCaptureConsole: function () {
-        console.log = consoleLog;
-        return consoleContent;
     },
     uncolor: function (str) {
         return stripAnsi(str);

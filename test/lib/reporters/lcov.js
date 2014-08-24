@@ -32,9 +32,7 @@ describe('reporters/lcov', function () {
             'function f(){}'
         ], 'lib/func/f.js');
 
-        utils.captureConsole();
-        lcovReporter(coverageInfo);
-        utils.uncolor(utils.endCaptureConsole()).trim().should.equal([
+        lcovReporter(coverageInfo).trim().should.equal([
             'TN:file1',
             'SF:' + process.cwd() + '/lib/file1.js',
             'DA:1,1',

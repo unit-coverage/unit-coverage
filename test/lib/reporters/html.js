@@ -43,10 +43,7 @@ describe('reporters/html', function () {
 
         var coverageInfo = run(files['lib/func/f.js'], 'lib/func/f.js');
 
-        utils.captureConsole();
-        htmlReporter(coverageInfo);
-
-        var html = utils.endCaptureConsole();
+        var html = htmlReporter(coverageInfo);
 
         html.should.contain('<span class="thread-dir"></span>lib<span class="thread-level">75%</span>');
         html.should.contain('<span class="thread-dir"></span>func<span class="thread-level">50%</span>');

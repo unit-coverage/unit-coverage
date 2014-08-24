@@ -32,9 +32,7 @@ describe('reporters/tree', function () {
             'function f(){}'
         ], 'lib/func/f.js');
 
-        utils.captureConsole();
-        treeReporter(coverageInfo);
-        utils.uncolor(utils.endCaptureConsole()).should.equal(
+        utils.uncolor(treeReporter(coverageInfo)).should.equal(
             '  lib 75%\n' +
             '    file1.js 100%\n' +
             '    func 50%\n' +

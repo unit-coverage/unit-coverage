@@ -55,7 +55,8 @@ if (opt.run) {
         fileSetOptions: fileSetOptions,
         quiet: opt['--quiet'],
         exludeInitCoverage: !opt['--include-init-coverage'],
-        filename: opt['--file']
+        filename: opt['--file'],
+        reportOutputFilename: opt['--output']
     }).done();
 } else if (opt.report) {
     runner.report({
@@ -65,7 +66,9 @@ if (opt.run) {
         reporter: opt['--reporter'],
         fileSetName: opt['--set'],
         fileSetOptions: fileSetOptions,
-        filename: opt['<coverage-file>']
+        filename: opt['<coverage-file>'],
+        reportOutputFilename: opt['--output'],
+        quiet: opt['--quiet']
     }).done();
 } else if (opt.instrument) {
     runner.instrument({

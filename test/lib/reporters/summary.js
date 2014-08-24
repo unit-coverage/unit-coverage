@@ -38,9 +38,7 @@ describe('reporters/summary', function () {
             'f(1);'
         ]);
 
-        utils.captureConsole();
-        summaryReporter(coverageInfo);
-        utils.uncolor(utils.endCaptureConsole()).trim().should.equal(
+        utils.uncolor(summaryReporter(coverageInfo)).trim().should.equal(
             'Lines 100%\nFunctions 50%\nBranches 100%\nTotal 91%'
         );
     });

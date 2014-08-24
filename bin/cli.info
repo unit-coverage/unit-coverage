@@ -2,14 +2,14 @@ Separated Coverage, {version}.
 
 Usage:
   scov run [-p <profile>] [-d <driver>] [-b <filename>] [-r <reporter>] [-f <filename>]
-      [-q] [-A <name>] [-I] [-S <file-set> [-O <name> -V <val>]...]
+      [-q] [-A <name>] [-I] [-S <file-set> [-O <name> -V <val>]...] [-o <filename>]
       [-e <mask>]... [-s <mask>]... [-t <mask>]... [-a <mask>]... [-- <runner-args>...]
   scov instrument [-p <profile>] [-d <driver>] [-A <name>] [-I] [-q] [-f <filename>]
       [-S <file-set> [-O <name> -V <val>]...]
       [-e <mask>]... [-s <mask>]... [-t <mask>]... <path>...
   scov report [-p <profile>] [-a <path>]... [-e <mask>]... [-s <mask>]... [-t <mask>]...
-      [-S <file-set> [-O <name> -V <val>]...]
-      [-r <reporter>] <coverage-file>
+      [-q] [-S <file-set> [-O <name> -V <val>]...]
+      [-r <reporter>] [-o <filename>] <coverage-file>
   scov --version
   scov --help
 
@@ -29,6 +29,8 @@ Options:
   -f --file=<filename>         Saves "json"-coverage information to specified file.
 
   -p --profile=<profile>       Reads profile from "package.json".
+
+  -o --output=<filename>       Report output filename.
 
   -X --no-export               Do not include json-save action into instrumented file.
 

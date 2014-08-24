@@ -56,7 +56,7 @@
     "lint": "jscs -p yandex lib test hooks bin res && jshint lib test hooks bin res",
     "unit": "mocha -R spec --recursive lib test",
     "coverage": "bin/separated-coverage.js run -p common",
-    "coverage-html": "bin/separated-coverage.js run -p common -r html > coverage.html",
+    "coverage-html": "bin/separated-coverage.js run -p common -r html -o coverage.html",
     "travis": "npm run test && bin/separated-coverage.js run -q -p common -r lcov | ./node_modules/coveralls/bin/coveralls.js"
   },
   "files": [
