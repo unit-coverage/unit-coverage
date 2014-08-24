@@ -15,8 +15,6 @@ npm install separated-coverage --save-dev
 ## CLI Usage
 
 ```
-Separated Coverage, {version}.
-
 Usage:
   scov run [-p <profile>] [-d <driver>] [-b <filename>] [-r <reporter>] [-f <filename>]
       [-q] [-A <name>] [-I] [-S <file-set> [-O <name> -V <val>]...]
