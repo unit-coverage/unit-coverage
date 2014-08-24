@@ -1,5 +1,5 @@
 var Source = require('../../lib/source');
-var FileSet = require('../../lib/file-set');
+var SimpleFileSet = require('../../lib/file-sets/simple-file-set');
 var CoverageInfo = require('../../lib/obj/coverage-info');
 var FileInfo = require('../../lib/obj/file-info');
 var StatInfo = require('../../lib/obj/stat-info');
@@ -7,7 +7,7 @@ var StatInfo = require('../../lib/obj/stat-info');
 describe('Source', function () {
     var source;
     beforeEach(function () {
-        source = new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', [], new FileSet());
+        source = new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', [], new SimpleFileSet());
     });
     describe('getFilename()', function () {
         it('should return given filename', function () {
@@ -25,7 +25,7 @@ describe('Source', function () {
             });
         });
         it('should process excludes for location info', function () {
-            new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', ['tmp/file.js'], new FileSet())
+            new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', ['tmp/file.js'], new SimpleFileSet())
                 .locate(1, 0).should.deep.equal({
                     filename: process.cwd() + '/tmp/file.js',
                     relativeFilename: 'tmp/file.js',
@@ -35,7 +35,7 @@ describe('Source', function () {
                 });
         });
         it('should process masked excludes for location info', function () {
-            new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', ['tmp/**'], new FileSet())
+            new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', ['tmp/**'], new SimpleFileSet())
                 .locate(1, 0).should.deep.equal({
                     filename: process.cwd() + '/tmp/file.js',
                     relativeFilename: 'tmp/file.js',
@@ -45,7 +45,7 @@ describe('Source', function () {
                 });
         });
         it('should process regex excludes for location info', function () {
-            new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', [/.*/], new FileSet())
+            new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', [/.*/], new SimpleFileSet())
                 .locate(1, 0).should.deep.equal({
                     filename: process.cwd() + '/tmp/file.js',
                     relativeFilename: 'tmp/file.js',

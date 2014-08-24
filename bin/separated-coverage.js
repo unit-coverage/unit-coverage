@@ -1,63 +1,85 @@
 #!/usr/bin/env node
 var fs = require('fs');
-var path = require('path');
-var childProcess = require('child_process');
+var docopt = require('docopt-mult-args').docopt;
+var Runner = require('../lib/runner');
+var version = 'v' + require('../package.json').version;
 
-var args = process.argv.slice(2);
-var command = args.shift();
+var info = fs.readFileSync(__dirname + '/cli.info', 'utf8').replace('{version}', version);
 
-var CoverageInfo = require('../lib/obj/coverage-info');
+var opt = docopt(info, {version: version});
+var runner = new Runner();
 
-switch (command) {
-    case 'report':
-        var inputParams = parseArguments(args);
-        var reporterName = inputParams.reporter || 'tree';
-        var input = inputParams.input || 'coverage.json';
-        require('../reporters/' + reporterName)(
-            CoverageInfo.fromJSON(JSON.parse(fs.readFileSync(input, 'utf8')))
+if (opt['--profile']) {
+    var profileName = opt['--profile'];
+    var packageFilename = process.cwd() + '/package.json';
+    var packageInfo = JSON.parse(fs.readFileSync(packageFilename, 'utf8'));
+    var sepCoveragePackageInfo = packageInfo['separated-coverage'];
+    if (!sepCoveragePackageInfo) {
+        throw new Error('No "separated-coverage" section in "' + packageFilename + '"');
+    }
+    var profile = sepCoveragePackageInfo[profileName];
+    if (!profile) {
+        throw new Error(
+            'No profile "' + profileName + '" at "separated-coverage" section in "' + packageFilename + '"'
         );
-        break;
-    case 'run':
-        args.push('-k', path.resolve(__dirname, '../hooks/phantom-dump-coverage.js'));
-        childProcess.spawn(args.shift(), args, {stdio: [process.stdin, process.stdout, process.stderr]}).on(
-            'close',
-            function (code) {
-                process.exit(code);
-            });
-        break;
-    case 'run-mocha':
-        var preMochaArgs = [];
-        var argVal;
-        while ((argVal = args.shift()) !== undefined) {
-            if (argVal === '--') {
-                break;
-            } else {
-                preMochaArgs.push(argVal);
-            }
-        }
-        var params = parseArguments(preMochaArgs);
-        params.bin = params.bin || 'node_modules/.bin/mocha';
-        var mochaBin = fs.realpathSync(params.bin);
-        var mochaArgs = args.concat('--compilers', 'js:' + path.resolve(__dirname, '../lib/require-replacement.js'));
-
-        process.env.tests = params.tests;
-        process.env.sources = params.sources;
-
-        childProcess.spawn(
-            mochaBin,
-            mochaArgs,
-            {stdio: [process.stdin, process.stdout, process.stderr], env: process.env}
-        ).on('close', function (code) {
-            process.exit(code);
-        });
-        break;
+    }
+    var args = process.argv.slice(2);
+    args = args.concat(profile);
+    opt = docopt(info, {version: version, argv: args});
 }
 
-function parseArguments(args) {
-    var inputParams = {};
-    while (args.length > 0) {
-        var argName = args.shift().replace('--', '');
-        inputParams[argName] = args.shift();
-    }
-    return inputParams;
+var fileSetOptions = {};
+if (opt['--set-opt']) {
+    opt['--set-opt'].forEach(function (name, i) {
+        fileSetOptions[name] = opt['--set-opt-val'][i] || '';
+    });
+}
+if (opt['--sources'].length === 0) {
+    opt['--sources'] = ['**/*.js'];
+}
+if (opt['--tests'].length === 0) {
+    opt['--tests'] = ['**/*.test.js'];
+}
+if (opt.run) {
+    runner.run({
+        testDriver: opt['--driver'],
+        reporter: opt['--reporter'],
+        additional: opt['--additional'],
+        sources: opt['--sources'],
+        excludes: opt['--excludes'],
+        tests: opt['--tests'],
+        bin: opt['--bin'],
+        apiObjectName: opt['--api-object-name'],
+        runnerArgs: opt['<runner-args>'],
+        fileSetName: opt['--set'],
+        fileSetOptions: fileSetOptions,
+        quiet: opt['--quiet'],
+        exludeInitCoverage: !opt['--include-init-coverage'],
+        filename: opt['--file']
+    }).done();
+} else if (opt.report) {
+    runner.report({
+        additional: opt['--additional'],
+        sources: opt['--sources'],
+        excludes: opt['--excludes'],
+        reporter: opt['--reporter'],
+        fileSetName: opt['--set'],
+        fileSetOptions: fileSetOptions,
+        filename: opt['<coverage-file>']
+    }).done();
+} else if (opt.instrument) {
+    runner.instrument({
+        paths: opt['<path>'],
+        testDriver: opt['--driver'],
+        sources: opt['--sources'],
+        excludes: opt['--excludes'],
+        tests: opt['--tests'],
+        apiObjectName: opt['--api-object-name'],
+        fileSetName: opt['--set'],
+        fileSetOptions: fileSetOptions,
+        quiet: opt['--quiet'],
+        exludeInitCoverage: !opt['--include-init-coverage'],
+        filename: opt['--file'],
+        export: !opt['--no-export']
+    }).done();
 }

@@ -1,6 +1,6 @@
-var FileSet = require('../../lib/file-set');
+var FileSet = require('../../../lib/file-sets/simple-file-set');
 
-describe('FileSet', function () {
+describe('SimpleFileSet', function () {
     describe('getTestName()', function () {
         it('should always return "default"', function () {
             (new FileSet()).getTestName().should.equal('default');

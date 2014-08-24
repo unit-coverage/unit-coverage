@@ -1,37 +1,37 @@
 /*jshint undef: false*/
 (function () {
     var global = this;
+    var exportApiObjectKey = '__EXPORT_API_OBJECT__';
     var map = __MAP__;
-    if (global.__MAP_VAR_NAME__) {
+    if (global[exportApiObjectKey]) {
+        var currentMap = global[exportApiObjectKey].getCoverageData();
         for (var i in map) {
-            if (map.hasOwnProperty(i) && !global.__MAP_VAR_NAME__.hasOwnProperty(i)) {
-                global.__MAP_VAR_NAME__[i] = map[i];
+            if (map.hasOwnProperty(i) && !currentMap.hasOwnProperty(i)) {
+                currentMap[i] = map[i];
             }
         }
     } else {
-        global.__MAP_VAR_NAME__ = map;
-
         // Switch between tests
         var currentTestName;
-        global.__BEGIN_TEST_FUNCTION_NAME__ = function (newTestName) {
+        var beginTest = function (newTestName) {
             currentTestName = newTestName;
         };
-        global.__END_TEST_FUNCTION_NAME__ = function () {
+        var endTest = function () {
             currentTestName = '__NO_TEST_PLACEHOLDER__';
         };
 
         // Counters
-        global.__LINE_COUNT_FUNCTION_NAME__ = function (filename, lineNumber) {
+        var countLine = function (filename, lineNumber) {
             if (!currentTestName || map[filename].testName === currentTestName) {
                 map[filename].stat.lines[lineNumber] = (map[filename].stat.lines[lineNumber] || 0) + 1;
             }
         };
-        global.__FUNCTION_COUNT_FUNCTION_NAME__ = function (filename, functionId) {
+        var countFunction = function (filename, functionId) {
             if (!currentTestName || map[filename].testName === currentTestName) {
                 map[filename].stat.functions[functionId] = (map[filename].stat.functions[functionId] || 0) + 1;
             }
         };
-        global.__BRANCH_COUNT_FUNCTION_NAME__ = function (filename, branchId, threadId, altThreadId, condition) {
+        var countBranch = function (filename, branchId, threadId, altThreadId, condition) {
             if (!currentTestName || map[filename].testName === currentTestName) {
                 if (arguments.length === 5 && !condition) {
                     threadId = altThreadId;
@@ -43,8 +43,8 @@
 
         // Remove init coverage data
         var initialized = false;
-        global.__INIT_FUNCTION_NAME__ = function () {
-            if (!initialized) {
+        var initialize = function () {
+            if (!initialized && __EXCLUDE_INIT_COVERAGE__) {
                 initialized = true;
                 Object.keys(map).forEach(function (filename) {
                     var fileInfo = map[filename];
@@ -71,30 +71,36 @@
 
         // Save to file
         var saved = false;
-        global.__SAVE_FUNCTION_NAME = function () {
+        var save = function () {
             if (!saved) {
                 saved = true;
                 if (__EXPORT__) {
-                    require('fs').writeFileSync(__EXPORT_FILENAME__, JSON.stringify(__MAP_VAR_NAME__));
-                    if (__REPORT_ON_FILE_SAVE__) {
-                        console.log('Coverage saved: ' + __EXPORT_FILENAME__);
+                    try {
+                        require('fs').writeFileSync(__EXPORT_FILENAME__, JSON.stringify(map));
+                        if (__REPORT_ON_FILE_SAVE__) {
+                            console.error('Coverage saved: ' + __EXPORT_FILENAME__);
+                        }
+                    } catch (e) {
+                        if (__REPORT_ON_FILE_SAVE__) {
+                            console.error('Could not save: ' + __EXPORT_FILENAME__);
+                        }
                     }
                 }
             }
         };
 
-        // Export as API if needed
-        var exportApiObjectKey = '__EXPORT_API_OBJECT__';
-        if (exportApiObjectKey) {
-            global[exportApiObjectKey] = {
-                getCoverageData: function () {
-                    return global.__MAP_VAR_NAME__;
-                },
-                initialize: global.__INIT_FUNCTION_NAME__,
-                save: global.__SAVE_FUNCTION_NAME,
-                beginTest: global.__BEGIN_TEST_FUNCTION_NAME__,
-                endTest: global.__END_TEST_FUNCTION_NAME__
-            };
-        }
+        // Export as API
+        global[exportApiObjectKey] = {
+            getCoverageData: function () {
+                return map;
+            },
+            initialize: initialize,
+            save: save,
+            beginTest: beginTest,
+            endTest: endTest,
+            countLine: countLine,
+            countFunction: countFunction,
+            countBranch: countBranch
+        };
     }
 })();

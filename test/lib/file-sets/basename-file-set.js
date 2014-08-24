@@ -1,4 +1,4 @@
-var BasenameFileSet = require('../../lib/basename-file-set');
+var BasenameFileSet = require('../../../lib/file-sets/basename-file-set');
 
 describe('BasenameFileSet', function () {
     var basenameFileSet = new BasenameFileSet();

@@ -1,18 +1,16 @@
-var Instrumenter = require('../../lib/instrumenter');
-var BasenameFileSet = require('../../lib/basename-file-set');
-var utils = require('./../_utils');
+var Instrumenter = require('../../../lib/instrumenter');
+var BasenameFileSet = require('../../../lib/file-sets/basename-file-set');
+var utils = require('../../_utils');
 var vm = require('vm');
 
-var CoverageInfo = require('../../lib/obj/coverage-info');
-var lcovReporter = require('../../reporters/lcov');
+var CoverageInfo = require('../../../lib/obj/coverage-info');
+var lcovReporter = require('../../../lib/reporters/lcov');
 
 describe('reporters/lcov', function () {
     var instrumenter;
 
     beforeEach(function () {
-        instrumenter = new Instrumenter(new BasenameFileSet(), __dirname, {
-            varPrefix: '___', varPostfix: '___'
-        });
+        instrumenter = new Instrumenter(new BasenameFileSet(), __dirname, {apiObjectName: '___sepCoverage___'});
     });
 
     afterEach(function () {

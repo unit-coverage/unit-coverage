@@ -1,5 +1,5 @@
 var Instrumenter = require('../../lib/instrumenter');
-var BasenameFileSet = require('../../lib/basename-file-set');
+var BasenameFileSet = require('../../lib/file-sets/basename-file-set');
 var utils = require('./../_utils');
 var fs = require('fs');
 var vm = require('vm');
@@ -13,11 +13,9 @@ describe('Instrumenter', function () {
 
         beforeEach(function () {
             instrumenter = new Instrumenter(new BasenameFileSet(), __dirname, {
-                varPrefix: '___', varPostfix: '___'
+                apiObjectName: 'coverageApi',
+                export: true, exportFilename: coverageFilePath
             });
-            instrumenter.enableExport(true);
-            instrumenter.setApiObjectName('coverageApi');
-            instrumenter.setExportFilename(coverageFilePath);
             global.require = require;
         });
 

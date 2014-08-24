@@ -1,5 +1,5 @@
 var Source = require('../../../lib/source');
-var FileSet = require('../../../lib/file-set');
+var FileSet = require('../../../lib/file-sets/simple-file-set');
 var escodegen = require('escodegen');
 var BranchCounters = require('../../../lib/processors/branch-counters');
 var EnsureBlocks = require('../../../lib/processors/ensure-blocks');
@@ -8,7 +8,7 @@ describe('BranchCounters', function () {
     function processSource(code) {
         var source = new Source(process.cwd(), process.cwd() + '/1.js', code, [], new FileSet());
         (new EnsureBlocks()).process(source);
-        (new BranchCounters('count')).process(source);
+        (new BranchCounters('s')).process(source);
         return {
             code: escodegen.generate(source.getAst()),
             coverageInfo: source.getCoverageInfo()
@@ -46,7 +46,7 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchIds().should.deep.equal([1]);
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
-            'var x = count(\'1.js\', 1, 0, 1, y) && z;'
+            'var x = s.countBranch(\'1.js\', 1, 0, 1, y) && z;'
         ].join('\n'));
     });
 
@@ -81,7 +81,7 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchIds().should.deep.equal([1]);
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
-            'var x = count(\'1.js\', 1, 0, 1, y) ? z : w;'
+            'var x = s.countBranch(\'1.js\', 1, 0, 1, y) ? z : w;'
         ].join('\n'));
     });
 
@@ -121,10 +121,10 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
             'if (x) {',
-            '    count(\'1.js\', 1, 0);',
+            '    s.countBranch(\'1.js\', 1, 0);',
             '    x++;',
             '} else {',
-            '    count(\'1.js\', 1, 1);',
+            '    s.countBranch(\'1.js\', 1, 1);',
             '    x--;',
             '}'
         ].join('\n'));
@@ -162,10 +162,10 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
             'if (x) {',
-            '    count(\'1.js\', 1, 0);',
+            '    s.countBranch(\'1.js\', 1, 0);',
             '    x++;',
             '} else {',
-            '    count(\'1.js\', 1, 1);',
+            '    s.countBranch(\'1.js\', 1, 1);',
             '}'
         ].join('\n'));
     });
@@ -228,17 +228,17 @@ describe('BranchCounters', function () {
         res.code.should.equal([
             'switch (x) {',
             'case 1:',
-            '    count(\'1.js\', 1, 0);',
+            '    s.countBranch(\'1.js\', 1, 0);',
             '    x++;',
             '    break;',
             'case 2:',
-            '    count(\'1.js\', 1, 1);',
+            '    s.countBranch(\'1.js\', 1, 1);',
             'case 3:',
-            '    count(\'1.js\', 1, 2);',
+            '    s.countBranch(\'1.js\', 1, 2);',
             '    x--;',
             '    break;',
             'default:',
-            '    count(\'1.js\', 1, 3);',
+            '    s.countBranch(\'1.js\', 1, 3);',
             '    x = 0;',
             '    break;',
             '}'

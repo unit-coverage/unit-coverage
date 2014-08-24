@@ -1,11 +1,11 @@
 var EnsureBlocks = require('../../../lib/processors/ensure-blocks');
 var Source = require('../../../lib/source');
-var FileSet = require('../../../lib/file-set');
+var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
 var escodegen = require('escodegen');
 
 describe('EnsureBlocks', function () {
     function processSource(code) {
-        var source = new Source(process.cwd(), process.cwd() + '/1.js', code, [], new FileSet());
+        var source = new Source(process.cwd(), process.cwd() + '/1.js', code, [], new SimpleFileSet());
         (new EnsureBlocks()).process(source);
         return escodegen.generate(source.getAst());
     }

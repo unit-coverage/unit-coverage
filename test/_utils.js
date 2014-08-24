@@ -19,7 +19,7 @@ module.exports = {
         }
     },
     getMap: function () {
-        return global.___sepCoverageMap___;
+        return global.___sepCoverage___.getCoverageData();
     },
     captureConsole: function () {
         consoleContent = '';

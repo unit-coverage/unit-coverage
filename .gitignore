@@ -1,4 +1,4 @@
 node_modules
 .idea
 coverage.html
-coverage.json
+npm-debug.log
