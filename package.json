@@ -21,7 +21,8 @@
     "jade": "^1.5.0",
     "minimatch": "^0.4.0",
     "vow": "^0.4.5",
-    "vow-fs": "^0.3.2"
+    "vow-fs": "^0.3.2",
+    "docopt-mult-args": "0.4.2"
   },
   "devDependencies": {
     "chai": "^1.9.1",
