@@ -12,6 +12,33 @@ Tests and sources are split into sets, and every set coverage is calculated sepa
 npm install separated-coverage --save-dev
 ```
 
+## Coveralls integration example
+
+First, install coveralls module:
+
+```
+npm install coveralls --save-dev
+```
+
+Create run script for Travis in `package.json`. Assuming you are using `mocha`, your sources are in `lib` directory and tests in `test`:
+
+```js
+"scripts": {
+    "test": "...",
+    "travis": "npm test && scov run -r lcov -a lib -s 'lib/**/*.js' -a test -t 'test/**/*.js' -- lib test"
+}
+```
+
+Change default Travis action from `npm test` to `npm run travis` in `.travis.yml`:
+
+```yaml
+language: node_js
+script: "npm run travis"
+#...
+```
+
+That's all :)
+
 ## CLI Usage
 
 ```
