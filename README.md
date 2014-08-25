@@ -45,6 +45,8 @@ Options:
 
   -p --profile=<profile>       Reads profile from "package.json".
 
+  -o --output=<filename>       Report output filename.
+
   -X --no-export               Do not include json-save action into instrumented file.
 
   -S --set=<set>               File set. Test name source for input files [default: basename].
