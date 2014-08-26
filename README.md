@@ -32,7 +32,7 @@ Create run script for Travis in `package.json`. Assuming you are using `mocha`, 
 ```js
 "scripts": {
     "test": "...",
-    "travis": "npm test && scov run -r lcov -a lib -s 'lib/**/*.js' -a test -t 'test/**/*.js' -- lib test | coveralls"
+    "travis": "npm test && scov run -q -r lcov -a lib -s 'lib/**/*.js' -a test -t 'test/**/*.js' -- lib test | coveralls"
 }
 ```
 
