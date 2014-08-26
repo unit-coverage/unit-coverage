@@ -4,7 +4,14 @@
 
 Coverage toolkit designed to collect coverage information separately for each test.
 
-Tests and sources are split into sets, and every set coverage is calculated separately.
+Unlike most coverage tools, `separated-coverage` keeps connection between source file and its test file.
+For each source file coverage is beeing computed only when its tests are running.
+This ensures you have correct test coverage for each file beeing tested.
+
+For example you have file `source.js` and its test: `source.test.js`.
+`separated-coverage` collects coverage for `source.js` only when `source.test.js` is running.
+
+The way source file and test file are beeing linked is configurable.
 
 ## Installation
 
@@ -25,7 +32,7 @@ Create run script for Travis in `package.json`. Assuming you are using `mocha`, 
 ```js
 "scripts": {
     "test": "...",
-    "travis": "npm test && scov run -r lcov -a lib -s 'lib/**/*.js' -a test -t 'test/**/*.js' -- lib test"
+    "travis": "npm test && scov run -r lcov -a lib -s 'lib/**/*.js' -a test -t 'test/**/*.js' -- lib test | coveralls"
 }
 ```
 
@@ -37,7 +44,8 @@ script: "npm run travis"
 #...
 ```
 
-That's all :)
+More about `coveralls`: https://coveralls.io/
+More about `coveralls` npm package: https://github.com/cainus/node-coveralls
 
 ## CLI Usage
 
