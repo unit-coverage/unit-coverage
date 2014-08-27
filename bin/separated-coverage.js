@@ -30,10 +30,13 @@ if (opt['--profile']) {
 
 var fileSetOptions = {};
 if (opt['--set-opt']) {
-    opt['--set-opt'].forEach(function (name, i) {
-        fileSetOptions[name] = opt['--set-opt-val'][i] || '';
+    opt['--set-opt'].forEach(function (opt) {
+        var optBits = opt.split('=');
+        var key = optBits.shift();
+        fileSetOptions[key] = optBits.length > 0 ? optBits.join('=') : true;
     });
 }
+
 if (opt['--sources'].length === 0) {
     opt['--sources'] = ['**/*.js'];
 }

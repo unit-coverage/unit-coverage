@@ -35,20 +35,13 @@
   },
   "separated-coverage": {
     "common": [
-      "-s",
-      "**/*.js",
-      "-e",
-      "node_modules/**",
-      "-t",
-      "test/**",
-      "-a",
-      "bin",
-      "-a",
-      "index.js",
-      "--",
-      "--recursive",
-      "lib",
-      "test"
+      "-s", "**/*.js",
+      "-e", "node_modules/**",
+      "-t", "test/**",
+      "-a", "bin",
+      "-a", "index.js",
+      "-S", "relative", "-O", "tests=test",
+      "--", "--recursive", "lib", "test"
     ]
   },
   "scripts": {
