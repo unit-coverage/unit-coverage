@@ -1,6 +1,6 @@
 {
   "name": "separated-coverage",
-  "version": "2.0.6",
+  "version": "2.1.0",
   "description": "",
   "main": "index.js",
   "author": "Marat Dulin",
@@ -35,13 +35,24 @@
   },
   "separated-coverage": {
     "common": [
-      "-s", "**/*.js",
-      "-e", "node_modules/**",
-      "-t", "test/**",
-      "-a", "bin",
-      "-a", "index.js",
-      "-S", "relative", "-O", "tests=test",
-      "--", "--recursive", "lib", "test"
+      "-s",
+      "**/*.js",
+      "-e",
+      "node_modules/**",
+      "-t",
+      "test/**",
+      "-a",
+      "bin",
+      "-a",
+      "index.js",
+      "-S",
+      "relative",
+      "-O",
+      "tests=test",
+      "--",
+      "--recursive",
+      "lib",
+      "test"
     ]
   },
   "scripts": {
