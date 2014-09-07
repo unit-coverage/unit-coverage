@@ -24,28 +24,46 @@ describe('reporters/lcov', function () {
 
     it('should build line and function LCOV', function () {
         run([
-            'var x = 0;',
+            'var x = true ? 1 : 0;',
             'x++;'
         ], 'lib/file1.js');
 
         var coverageInfo = run([
-            'function f(){}'
+            'function f(){}',
+            'function z(){}',
+            'f();'
         ], 'lib/func/f.js');
 
         lcovReporter(coverageInfo).trim().should.equal([
             'TN:file1',
             'SF:' + process.cwd() + '/lib/file1.js',
+            'FNF:0',
+            'FNH:0',
             'DA:1,1',
             'DA:2,1',
             'LF:2',
             'LH:2',
+            'BRDA:1,1,0,1',
+            'BRDA:1,1,1,0',
+            'BRF:1',
+            'BRH:0',
             'end_of_record',
 
             'TN:f',
             'SF:' + process.cwd() + '/lib/func/f.js',
+            'FN:1,f',
+            'FNDA:1,f',
+            'FN:2,z',
+            'FNDA:0,z',
+            'FNF:2',
+            'FNH:1',
             'DA:1,1',
-            'LF:1',
-            'LH:1',
+            'DA:2,1',
+            'DA:3,1',
+            'LF:3',
+            'LH:3',
+            'BRF:0',
+            'BRH:0',
             'end_of_record'
         ].join('\n'));
     });
