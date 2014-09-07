@@ -30,7 +30,10 @@ describe('reporters/html', function () {
                 'x++; // inc',
                 'y = {x: 1}; /* global */',
                 'y.x++;',
-                'function f(a) { a++; }',
+                '(function f(a) { a++; })();',
+                'var z = {' +
+                '    f: y ? function() {} : 1',
+                '};',
                 ''
             ].join('\n'),
 
@@ -45,12 +48,12 @@ describe('reporters/html', function () {
 
         var html = htmlReporter(coverageInfo);
 
-        html.should.contain('<span class="thread-dir"></span>lib<span class="thread-level">75%</span>');
+        html.should.contain('<span class="thread-dir"></span>lib<span class="thread-level">73%</span>');
         html.should.contain('<span class="thread-dir"></span>func<span class="thread-level">50%</span>');
         html.should.contain(
             '<span class="thread-file"></span>' +
             '<span class="thread-link-name">file1.js</span>' +
-            '<span class="thread-level">83%</span>'
+            '<span class="thread-level">78%</span>'
         );
         html.should.contain(
             '<span class="thread-file"></span>' +

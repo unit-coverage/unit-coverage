@@ -119,17 +119,55 @@ html
         counter-increment: file-line-counter;
         display: inline-block;
         width: 40px;
-        margin-right: 15px;
+        padding-right: 5px;
+        margin-right: 10px;
         text-align: right;
         color: rgba(255, 255, 255, 0.5);
+        white-space: nowrap;
       }
 
-      .line.uncovered {
-        background: rgba(255, 0, 0, 0.75);
+      .line.uncovered:before {
+        background: rgba(255, 0, 0, 0.50);
       }
 
-      .line.covered {
-        background: rgba(66, 95, 68, 0.50);
+      .line.covered:before {
+        background: rgba(0, 128, 0, 0.50);
+      }
+
+      .line.semi-covered:before {
+        background: rgba(128, 128, 0, 0.50);
+      }
+
+      .line:hover {
+        background: #444546;
+      }
+
+      .line-marks {
+        display: none;
+        z-index: 1;
+      }
+
+      .line:hover .line-marks {
+        display: inline;
+      }
+
+      .line-code {
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+      }
+
+      .line-mark {
+        position: absolute;
+        white-space: pre-wrap;
+      }
+
+      .line-mark .covered {
+        background: rgba(0, 128, 0, 0.50);
+      }
+
+      .line-mark .uncovered {
+        background: rgba(255, 0, 0, 0.50);
       }
 
       .Punctuator {
@@ -193,12 +231,13 @@ html
           .source-file-info
             .source-file-name=file.name
           each line in file.lines
-            .line(class=line.state) !{line.code}
+            .line(class=line.state)
+              span.line-marks !{line.marks}
+              span.line-code !{line.code}
 
     script.
       function updateHash() {
           [].forEach.call(document.getElementsByClassName('thread-link'), function (node) {
-              console.log(node.href);
               node.className = (node.getAttribute('href') === location.hash ?
                   node.className + ' thread-selected' :
                   node.className.replace(/thread\-selected/g, ''));
