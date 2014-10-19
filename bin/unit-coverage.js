@@ -13,14 +13,14 @@ if (opt['--profile']) {
     var profileName = opt['--profile'];
     var packageFilename = process.cwd() + '/package.json';
     var packageInfo = JSON.parse(fs.readFileSync(packageFilename, 'utf8'));
-    var sepCoveragePackageInfo = packageInfo['separated-coverage'];
-    if (!sepCoveragePackageInfo) {
-        throw new Error('No "separated-coverage" section in "' + packageFilename + '"');
+    var unitCoveragePackageInfo = packageInfo['unit-coverage'];
+    if (!unitCoveragePackageInfo) {
+        throw new Error('No "unit-coverage" section in "' + packageFilename + '"');
     }
-    var profile = sepCoveragePackageInfo[profileName];
+    var profile = unitCoveragePackageInfo[profileName];
     if (!profile) {
         throw new Error(
-            'No profile "' + profileName + '" at "separated-coverage" section in "' + packageFilename + '"'
+            'No profile "' + profileName + '" at "unit-coverage" section in "' + packageFilename + '"'
         );
     }
     var args = process.argv.slice(2);

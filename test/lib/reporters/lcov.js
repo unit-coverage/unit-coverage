@@ -10,7 +10,7 @@ describe('reporters/lcov', function () {
     var instrumenter;
 
     beforeEach(function () {
-        instrumenter = new Instrumenter(new BasenameFileSet(), __dirname, {apiObjectName: '___sepCoverage___'});
+        instrumenter = new Instrumenter(new BasenameFileSet(), __dirname, {apiObjectName: '___unitCoverage___'});
     });
 
     afterEach(function () {

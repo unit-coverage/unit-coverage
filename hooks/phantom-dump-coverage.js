@@ -7,7 +7,7 @@ module.exports = {
         var options = JSON.parse(args[args.length - 1]).settings;
         /*jshint evil: true*/
         var result = reporter.page.evaluate(new Function(
-            'var variable = window.__sepCoverage__.getCoverageData();' +
+            'var variable = window.__unitCoverage__.getCoverageData();' +
             'return typeof variable === "object" ? JSON.stringify(variable) : variable;'
         ));
 

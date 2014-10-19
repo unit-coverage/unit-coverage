@@ -1,4 +1,4 @@
-var globalVarPrefix = '___sepCoverage';
+var globalVarPrefix = '___unitCoverage';
 var stripAnsi = require('strip-ansi');
 var fs = require('fs');
 
@@ -17,7 +17,7 @@ module.exports = {
         }
     },
     getMap: function () {
-        return global.___sepCoverage___.getCoverageData();
+        return global.___unitCoverage___.getCoverageData();
     },
     uncolor: function (str) {
         return stripAnsi(str);

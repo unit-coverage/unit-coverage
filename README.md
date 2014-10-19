@@ -1,22 +1,22 @@
-# separated-coverage
+# unit-coverage
 
-[![Build Status](https://travis-ci.org/mdevils/separated-coverage.svg?branch=master)](https://travis-ci.org/mdevils/separated-coverage) [![Coverage Status](https://coveralls.io/repos/mdevils/separated-coverage/badge.png?branch=master)](https://coveralls.io/r/mdevils/separated-coverage?branch=master) [![Dependency Status](https://david-dm.org/mdevils/separated-coverage.svg)](https://david-dm.org/mdevils/separated-coverage) [![devDependency Status](https://david-dm.org/mdevils/separated-coverage/dev-status.svg)](https://david-dm.org/mdevils/separated-coverage#info=devDependencies)
+[![Build Status](https://travis-ci.org/mdevils/unit-coverage.svg?branch=master)](https://travis-ci.org/mdevils/unit-coverage) [![Coverage Status](https://coveralls.io/repos/mdevils/unit-coverage/badge.png?branch=master)](https://coveralls.io/r/mdevils/unit-coverage?branch=master) [![Dependency Status](https://david-dm.org/mdevils/unit-coverage.svg)](https://david-dm.org/mdevils/unit-coverage) [![devDependency Status](https://david-dm.org/mdevils/unit-coverage/dev-status.svg)](https://david-dm.org/mdevils/unit-coverage#info=devDependencies)
 
 Coverage toolkit designed to collect coverage information separately for each test.
 
-Unlike most coverage tools, `separated-coverage` keeps connection between source file and its test file.
+Unlike most coverage tools, `unit-coverage` keeps connection between source file and its test file.
 For each source file coverage is beeing computed only when its tests are running.
 This ensures you have correct test coverage for each file beeing tested.
 
 For example you have file `source.js` and its test: `source.test.js`.
-`separated-coverage` collects coverage for `source.js` only when `source.test.js` is running.
+`unit-coverage` collects coverage for `source.js` only when `source.test.js` is running.
 
 The way source file and test file are beeing linked is configurable.
 
 ## Installation
 
 ```
-npm install separated-coverage --save-dev
+npm install unit-coverage --save-dev
 ```
 
 ## Coveralls integration example
@@ -32,7 +32,7 @@ Create run script for Travis in `package.json`. Assuming you are using `mocha`, 
 ```js
 "scripts": {
     "test": "...",
-    "travis": "npm test && scov run -q -r lcov -a lib -s 'lib/**/*.js' -a test -t 'test/**/*.js' -- lib test | coveralls"
+    "travis": "npm test && unit-coverage run -q -r lcov -a lib -s 'lib/**/*.js' -a test -t 'test/**/*.js' -- lib test | coveralls"
 }
 ```
 
@@ -52,21 +52,21 @@ More about `coveralls` npm package: https://github.com/cainus/node-coveralls
 ```
 Usage:
 
-  scov run [-p <profile>] [-d <driver>] [-b <filename>] [-r <reporter>] [-f <filename>]
+  unit-coverage run [-p <profile>] [-d <driver>] [-b <filename>] [-r <reporter>] [-f <filename>]
       [-q] [-A <name>] [-I] [-S <file-set> [-O <name>]...] [-o <filename>]
       [-e <mask>]... [-s <mask>]... [-t <mask>]... [-a <mask>]... [-- <runner-args>...]
 
-  scov instrument [-p <profile>] [-d <driver>] [-A <name>] [-I] [-q] [-f <filename>]
+  unit-coverage instrument [-p <profile>] [-d <driver>] [-A <name>] [-I] [-q] [-f <filename>]
       [-S <file-set> [-O <name>]...]
       [-e <mask>]... [-s <mask>]... [-t <mask>]... <path>...
 
-  scov report [-p <profile>] [-a <path>]... [-e <mask>]... [-s <mask>]... [-t <mask>]...
+  unit-coverage report [-p <profile>] [-a <path>]... [-e <mask>]... [-s <mask>]... [-t <mask>]...
       [-q] [-S <file-set> [-O <name>]...]
       [-r <reporter>] [-o <filename>] <coverage-file>
 
-  scov --version
+  unit-coverage --version
 
-  scov --help
+  unit-coverage --help
 
 Options:
 
