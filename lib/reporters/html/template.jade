@@ -8,6 +8,7 @@ html
         margin: 0;
         height: 100%;
         background: #3C3F41;
+        font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
       }
 
       .tree {
@@ -15,7 +16,6 @@ html
         width: 20%;
         height: 100%;
         overflow: auto;
-        font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
         font-size: 12px;
         padding-right: 10px;
         box-sizing: border-box;
@@ -80,9 +80,6 @@ html
       .source-file {
         background: #2B2B2B;
         color: #E6E1DC;
-        white-space: pre;
-        font-family: monaco, monospaced, Courier, monospace;
-        font-size: 13px;
         counter-reset: file-line-counter;
         position: relative;
         display: none;
@@ -114,7 +111,10 @@ html
         display: block;
       }
 
-      .line:before {
+      .line-number {
+        display: inline-block;
+      }
+      .line-number:before {
         content: counter(file-line-counter);
         counter-increment: file-line-counter;
         display: inline-block;
@@ -124,50 +124,110 @@ html
         text-align: right;
         color: rgba(255, 255, 255, 0.5);
         white-space: nowrap;
+        line-height: 20px;
+      }
+      .line-has-info .line-number {
+        cursor: pointer;
+      }
+      .line-has-info .line-number:before {
+        text-decoration: underline;
       }
 
-      .line.uncovered:before {
+      .line.uncovered .line-number:before {
         background: rgba(255, 0, 0, 0.50);
       }
 
-      .line.covered:before {
+      .line.covered .line-number:before {
         background: rgba(0, 128, 0, 0.50);
       }
 
-      .line.semi-covered:before {
+      .line.semi-covered .line-number:before {
         background: rgba(255, 255, 0, 0.50);
       }
 
-      .line:hover {
+      .line-code {
+        white-space: pre;
+      }
+
+      .line-info {
+        background: #44443f;
+        margin-left: 46px;
+        font-size: 12px;
+        display: none;
+      }
+
+      .line-show-more-info .line-info {
+        display: block;
+      }
+
+      .line:hover, .line-show-more-info {
         background: #444546;
       }
 
-      .line-marks {
+      .info-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 15px;
+      }
+      .info-table th, .info-table td {
+        text-align: left;
+        vertical-align: top;
+        padding: 2px 5px;
+        border-bottom: rgba(255,255,255,0.5) 1px solid;
+        border-right: rgba(255,255,255,0.5) 1px solid;
+      }
+      .info-table tr:last-child {
         display: none;
-        z-index: 1;
       }
 
-      .line:hover .line-marks {
+      .info-branch-code {
+        white-space: pre;
+      }
+
+      .info-branch-title {
+        white-space: nowrap;
+      }
+
+      .info-branch-covered {
+        color: lime;
+      }
+
+      .info-branch-uncovered {
+        color: red;
+      }
+
+      td.info-spacer {
+        border-bottom: none;
+      }
+
+      .info-spacer div {
+        height: 10px;
+      }
+
+      .code, .line-number {
+        font-family: monaco, monospaced, Courier, monospace;
+        font-size: 13px;
+      }
+
+      .short.short-more-content-visible .short-more-content {
         display: inline;
       }
 
-      .line-code {
-        display: inline-block;
-        position: relative;
-        z-index: 2;
+      .short-more {
+        background: rgba(255,255,255,0.2);
+        color: rgba(255,255,255,0.5);
+        border-radius: 5px;
+        margin-left: 10px;
+        padding: 0 5px;
+        cursor: pointer;
       }
 
-      .line-mark {
-        position: absolute;
-        white-space: pre-wrap;
+      .short-more-content {
+        display: none;
       }
 
-      .line-mark .covered {
-        background: rgba(0, 128, 0, 0.50);
-      }
-
-      .line-mark .uncovered {
-        background: rgba(255, 0, 0, 0.50);
+      .Rest {
+        color: gray;
       }
 
       .Punctuator {
@@ -231,9 +291,29 @@ html
           .source-file-info
             .source-file-name=file.name
           each line in file.lines
-            .line(class=line.state)
-              span.line-marks !{line.marks}
-              span.line-code !{line.code}
+            .line(class=line.state + (line.info.length > 0 ? ' line-has-info' : ''))
+              if line.info.length > 0
+                div.line-info
+                  table.info-table
+                    tbody
+                      each info in line.info
+                        tr
+                          th(colspan=2).info-title
+                            =info.title
+                        each branch in info.branches
+                          tr
+                            td.info-branch-title(class=branch.covered ? 'info-branch-covered' : 'info-branch-uncovered')
+                              =branch.covered ? '✓' : '✗'
+                              =' '
+                              =branch.title
+                            td.info-branch-code
+                              .code !{branch.html}
+                        tr
+                          td.info-spacer(colspan=2)
+                            div
+              div.line-code
+                span.line-number
+                span.code !{line.code}
 
     script.
       function updateHash() {
@@ -245,3 +325,28 @@ html
       }
       window.onhashchange = updateHash;
       updateHash();
+
+      function toggleClass(element, className) {
+        var regexp = new RegExp('(\\s|^)' + className.replace(/\-/g, '\\-') + '(\\s|$)');
+        console.log(regexp);
+        if (element.className.match(regexp)) {
+          element.className = element.className.replace(regexp, ' ');
+        } else {
+          element.className += ' ' + className;
+        }
+      };
+
+      document.body.onclick = function (e) {
+        if (e.target.className === 'short-more') {
+          toggleClass(e.target.parentNode, 'short-more-content-visible');
+        } else {
+          var node = e.target;
+          var body = document.body;
+          while (node.parentNode && node !== body) {
+            if (node.className === 'line-number') {
+              toggleClass(node.parentNode.parentNode, 'line-show-more-info');
+            }
+            node = node.parentNode;
+          }
+        }
+      };

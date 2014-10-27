@@ -23,7 +23,7 @@ describe('Instrumenter', function () {
             return coverageInfo.getFileInfo('code.js');
         }
 
-        it('should instrument logical expressions', function () {
+        it('should instrument && logical expression', function () {
             var res = run([
                 'var x = true && 5;',
                 'x = false && 5;'
@@ -32,6 +32,20 @@ describe('Instrumenter', function () {
             res.getStatInfo().getBranchIds().should.deep.equal([1, 2]);
             res.getStatInfo().getBranchThreadCallCount(1, 0).should.equal(1);
             res.getStatInfo().getBranchThreadCallCount(2, 0).should.equal(0);
+
+            res.getBranchInfo(1).getType().should.equal('LogicalExpression');
+            res.getBranchInfo(2).getType().should.equal('LogicalExpression');
+        });
+
+        it('should instrument || logical expression', function () {
+            var res = run([
+                'var x = true || 5;',
+                'x = false || 5;'
+            ]);
+
+            res.getStatInfo().getBranchIds().should.deep.equal([1, 2]);
+            res.getStatInfo().getBranchThreadCallCount(1, 0).should.equal(0);
+            res.getStatInfo().getBranchThreadCallCount(2, 0).should.equal(1);
 
             res.getBranchInfo(1).getType().should.equal('LogicalExpression');
             res.getBranchInfo(2).getType().should.equal('LogicalExpression');

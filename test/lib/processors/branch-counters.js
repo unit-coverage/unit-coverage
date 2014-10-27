@@ -15,7 +15,7 @@ describe('BranchCounters', function () {
         };
     }
 
-    it('should place counters to logical expressions', function () {
+    it('should place counters to && logical expression', function () {
         var res = processSource([
             'var x = y && z;'
         ].join('\n'));
@@ -47,6 +47,41 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
             'var x = s.countBranch(\'1.js\', 1, 0, 1, y) && z;'
+        ].join('\n'));
+    });
+
+    it('should place counters to || logical expression', function () {
+        var res = processSource([
+            'var x = y || z;'
+        ].join('\n'));
+        var fi = res.coverageInfo.getFileInfo('1.js');
+        fi.getBranchIds().should.deep.equal([1]);
+        fi.getBranchInfo(1).getId().should.equal(1);
+        fi.getBranchInfo(1).getType().should.equal('LogicalExpression');
+        fi.getBranchInfo(1).getLocation().should.deep.equal({
+            start: {line: 1, column: 8},
+            end: {line: 1, column: 14}
+        });
+        fi.getBranchInfo(1).getThreads().should.deep.equal([
+            {
+                id: 0,
+                location: {
+                    start: {line: 1, column: 13},
+                    end: {line: 1, column: 14}
+                }
+            },
+            {
+                id: 1,
+                location: {
+                    start: {line: 1, column: 8},
+                    end: {line: 1, column: 9}
+                }
+            }
+        ]);
+        fi.getStatInfo().getBranchIds().should.deep.equal([1]);
+        fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
+        res.code.should.equal([
+            'var x = s.countBranch(\'1.js\', 1, 1, 0, y) || z;'
         ].join('\n'));
     });
 
