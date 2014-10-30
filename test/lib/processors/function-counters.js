@@ -3,6 +3,8 @@ var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
 var escodegen = require('escodegen');
 var FunctionCounters = require('../../../lib/processors/function-counters');
 
+var File = require('enb-source-map/lib/file');
+
 describe('FunctionCounters', function () {
     function processSource(code) {
         var source = new Source(process.cwd(), process.cwd() + '/1.js', code, [], new SimpleFileSet());
@@ -35,6 +37,7 @@ describe('FunctionCounters', function () {
             '}'
         ].join('\n'));
     });
+
     it('should place counters to function expressions', function () {
         var res = processSource([
             'var f = function() {',
@@ -57,6 +60,7 @@ describe('FunctionCounters', function () {
             '};'
         ].join('\n'));
     });
+
     it('should place counters to named function expressions', function () {
         var res = processSource([
             'var f = function x() {',
@@ -78,5 +82,39 @@ describe('FunctionCounters', function () {
             '    return 1;',
             '};'
         ].join('\n'));
+    });
+
+    it('should correctly handle source maps', function () {
+        var file = new File('1.js', true);
+        file.writeContent('// Hello World');
+        file.writeContent('// Some unmapped content');
+        file.writeFileContent(
+            'func1.js',
+            '// anonymous function here\n' +
+            'var f1 = function() {\n' +
+            '    return 1;\n' +
+            '};\n' +
+            '// end of anonymous function\n'
+        );
+        file.writeFileContent(
+            'func2.js',
+            '// named function here\n' +
+            '    function f1() {\n' +
+            '        return 1;\n' +
+            '    }\n' +
+            '// end of named function\n'
+        );
+        var res = processSource(file.render());
+        /** @type {CoverageInfo} */
+        var ci = res.coverageInfo;
+
+        var file1 = ci.getFileInfo('func1.js');
+        file1.getFunctionIds().length.should.equal(1);
+        var f1 = file1.getFunctionInfo(file1.getFunctionIds()[0]);
+
+        f1.getName().should.equal('(anonymous_1)');
+        f1.getLocation().start.line.should.equal(2);
+        f1.getLocation().start.column.should.equal(9);
+        f1.getLocation().end.line.should.equal(4);
     });
 });
