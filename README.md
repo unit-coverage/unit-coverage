@@ -26,9 +26,9 @@ correctness of the current coverage tools: what exactly is beeing measured by th
 
 In most coverage tools you can find at least three metrics:
 
-* Covered lines during all tests.
-* Covered branches during all tests.
-* Covered functions during all tests.
+* Covered lines during all the tests.
+* Covered branches during all the tests.
+* Covered functions during all the tests.
 
 You run the tests under coverage tool and you receive a report saying how many lines, branches and functions are
 covered in the whole test run. This report tells you which lines were affected and which were not.
