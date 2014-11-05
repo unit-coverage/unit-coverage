@@ -55,7 +55,7 @@ When later you introduce tests for `B` and `C`, you get a mess:
 
 ![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/multiple-other.png)
 
-In this report you cannot say: how good is the test for `A`. How good is test for `B`? And what about `C`-test?
+In this report you cannot say: how good is the test for `A`? How good is test for `B`? And what about `C`-test?
 
 With `unit-coverage` we implemented another strategy. Having a single test for `A` you only get a report
 with `A`-coverage information:
