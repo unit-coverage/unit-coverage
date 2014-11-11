@@ -21,8 +21,8 @@ npm install unit-coverage --save-dev
 
 ## The idea
 
-You could ask: what is the use of yet another JS coverage tool? `unit-coverage` was born in the discussion about
-correctness of the current coverage tools: what exactly is beeing measured by the most coverage tools available?
+You could ask: what is the use of yet another JS coverage tool? `unit-coverage` was born out of the discussion about
+the correctness of the current coverage tools: what exactly is beeing measured by most coverage tools available?
 
 In most coverage tools you can find at least three metrics:
 
@@ -30,15 +30,16 @@ In most coverage tools you can find at least three metrics:
 * Covered branches during all the tests.
 * Covered functions during all the tests.
 
-You run the tests under coverage tool and you receive a report saying how many lines, branches and functions are
-covered in the whole test run. This report tells you which lines were affected and which were not.
+You run tests under coverage tool and you receive a report saying how many lines, branches and functions are
+covered in a whole test run. This report tells you which lines were affected and which were not.
 
-But there is no information about the specific test.
+But there is no information about a specific test.
 
-For example, looking at the report you cannot answer: how the test for the class `User` covers `User` class's
+For example, you have two classes: `User` and `Group`. You run your favourite JS-coverage tool to generate a report.
+Looking at the report you cannot answer: how the test for the class `User` covers `User` class's
 lines/branches/functions. If there is a test for the class `Group` and `Group` is using `User`, the `User`-class line
-coverage will be affected during the `Group`-class tests. Even if you do not have tests for specific classes, you may
-get unwanted coverage from the other tests.
+coverage will be affected during the `Group`-class's tests. Even if you do not have any tests for specific classes,
+you may get unwanted coverage from the other tests.
 
 In other words, most coverage tools dump their coverage data in a huge heap.
 
@@ -51,24 +52,25 @@ This is example how **most coverage tools** work:
 
 You only have test for the class `A`, but receive coverage from used but not tested classes: `B` and `C`.
 
-When later you introduce tests for `B` and `C`, you get a mess:
+When later you introduce the tests for `B` and `C`, you get a mess:
 
 ![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/multiple-other.png)
 
-In this report you cannot say: how good is the test for `A`? How good is test for `B`? And what about `C`-test?
+In this report you cannot say: how good is the test for `A`? How good is the test for `B`?
+And what about the `C`-test?
 
 With `unit-coverage` we implemented another strategy. Having a single test for `A` you only get a report
-with `A`-coverage information:
+containing `A`-coverage information:
 
 ![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/single-unit-coverage.png)
 
-And when you fill your project with more tests:
+And when you fill up your project with more tests:
 
 ![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/multiple-unit-coverage.png)
 
-You still get the desired coverage information.
+You still get desired coverage information.
 
-That's the idea: `unit-coverage` let you know how good your tests are.
+That's the idea: `unit-coverage` lets you know how good your tests are.
 
 ## Coveralls integration example
 
