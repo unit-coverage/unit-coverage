@@ -72,15 +72,49 @@ You still get desired coverage information.
 
 That's the idea: `unit-coverage` lets you know how good your tests are.
 
+## Matching test and source file
+
+To let `unit-coverage` do the job at its best, you should choose the matching method, which specifies mapping between
+a source file and its tests file. We call it `File Set` (set of files).
+
+There is a CLI option to specify the required `File Set`: `--set <file-set>` (shortcut: `-S`).
+Some `File Sets` requires configuration. You can use `--set-opt <name>=<val>`(shortcut: `-O`).
+
+Available `File Sets`:
+
+* `basename` (default): matches source and test files when they have equal file name (excluding extension).
+  Works for simple projects.
+* `simple`: matches everything to everything (this is how most coverage tools work). Introduced for testing purposes.
+* `relative`: matches source and test files when they are located in different but equal directory subtrees.
+  For example, you can match source file `src/lib/class.js` to its test at `test/lib/class.js`.
+
+Mode `relative` has several options:
+
+* `sources` directory where are the tests located (project root if omitted).
+* `tests` directory where are the tests located (project root if omitted).
+* `suffix` suffix, which will be removed from file names during the match.
+
+`relative` mode example:
+
+```sh
+unit-coverage run -s 'src/**' -t 'test/**' -S relative -O sources=src -O tests=test -- --recursive src test
+```
+
 ## Coveralls integration example
 
-First, install coveralls module:
+Coveralls works with your continuous integration server to give you test coverage history and statistics.
+It is free for open source projects. Website: https://coveralls.io
+
+We use Coveralls to track coverage changes over pull-requests.
+
+Having enabled Coveralls and Travis for your project, install Coveralls module:
 
 ```
 npm install coveralls --save-dev
 ```
 
-Create run script for Travis in `package.json`. Assuming you are using `mocha`, your sources are in `lib` directory and tests in `test`:
+Create run script for Travis in `package.json`. Assuming you are using `mocha`,
+your sources are in `lib` directory and tests in `test`:
 
 ```js
 "scripts": {
@@ -97,8 +131,9 @@ script: "npm run travis"
 #...
 ```
 
-More about `coveralls`: https://coveralls.io/
-More about `coveralls` npm package: https://github.com/cainus/node-coveralls
+More about Coveralls: https://coveralls.io/
+More about Coveralls npm package: https://github.com/cainus/node-coveralls
+More about Travis CI: https://travis-ci.org/
 
 ## CLI Usage
 
