@@ -131,9 +131,9 @@ script: "npm run travis"
 #...
 ```
 
-More about Coveralls: https://coveralls.io/
-More about Coveralls npm package: https://github.com/cainus/node-coveralls
-More about Travis CI: https://travis-ci.org/
+* More about Coveralls: https://coveralls.io/
+* More about Coveralls npm package: https://github.com/cainus/node-coveralls
+* More about Travis CI: https://travis-ci.org/
 
 ## CLI Usage
 
