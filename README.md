@@ -74,8 +74,8 @@ That's the idea: `unit-coverage` lets you know how good your tests are.
 
 ## Matching test and source file
 
-To let `unit-coverage` do the job at its best, you should choose the matching method, which specifies mapping between
-a source file and its tests file. We call it `File Set` (set of files).
+To let `unit-coverage` do the job at its best, you should choose a matching method, which specifies a mapping between
+a source file and its tests file. We call it `File Set`.
 
 There is a CLI option to specify the required `File Set`: `--set <file-set>` (shortcut: `-S`).
 Some `File Sets` requires configuration. You can use `--set-opt <name>=<val>`(shortcut: `-O`).
