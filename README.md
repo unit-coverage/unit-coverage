@@ -86,7 +86,7 @@ Available `File Sets`:
   Works for simple projects.
 * `simple`: matches everything to everything (this is how most coverage tools work). Introduced for testing purposes.
 * `relative`: matches source and test files when they are located in different but equal directory subtrees.
-  For example, you can match source file `src/lib/class.js` to its test at `test/lib/class.js`.
+  For example, you can match the source file `src/lib/class.js` to its test at `test/lib/class.js`.
 
 Mode `relative` has several options:
 
