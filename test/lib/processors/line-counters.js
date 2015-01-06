@@ -1,3 +1,5 @@
+var should = require('chai').should();
+
 var Source = require('../../../lib/source');
 var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
 var escodegen = require('escodegen');
@@ -13,6 +15,13 @@ describe('LineCounters', function () {
         };
     }
 
+    it('should not count on excluded files', function () {
+        var source = new Source(
+            process.cwd(), process.cwd() + '/excluded.js', 'var x = 1;', ['excluded.js'], new SimpleFileSet()
+        );
+        (new LineCounters('s')).process(source);
+        should.not.exist(source.getCoverageInfo().getFileInfo('excluded.js'));
+    });
     it('should place counters to program root', function () {
         var res = processSource([
             'var x = 1;',
