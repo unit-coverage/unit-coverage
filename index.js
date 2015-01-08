@@ -9,7 +9,8 @@ module.exports = {
         tree: require('./lib/reporters/tree'),
         html: require('./lib/reporters/html'),
         lcov: require('./lib/reporters/lcov'),
-        teamcity: require('./lib/reporters/teamcity')
+        teamcity: require('./lib/reporters/teamcity'),
+        clover: require('./lib/reporters/clover')
     },
     testDrivers: {
         MochaTestDriver: require('./lib/test-drivers/mocha-test-driver'),

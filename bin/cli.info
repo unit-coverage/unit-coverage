@@ -28,7 +28,7 @@ Options:
 
   -d --driver=<driver>         Specifies driver [default: mocha].
 
-  -r --reporter=<name>         Reporer name: html, lcov, summary, teamcity, tree [default: tree].
+  -r --reporter=<name>         Reporer name: html, lcov, summary, teamcity, clover, tree [default: tree].
 
   -o --output=<filename>       Report output filename.
 
