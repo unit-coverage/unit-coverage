@@ -1,3 +1,5 @@
+var should = require('chai').should();
+
 var Source = require('../../../lib/source');
 var FileSet = require('../../../lib/file-sets/simple-file-set');
 var escodegen = require('escodegen');
@@ -15,6 +17,16 @@ describe('BranchCounters', function () {
         };
     }
 
+    it('should not count on excluded files', function () {
+        var source = new Source(
+            process.cwd(), process.cwd() + '/excluded.js',
+            'var x = y && z',
+            ['excluded.js'], new FileSet()
+        );
+        (new EnsureBlocks()).process(source);
+        (new BranchCounters('s')).process(source);
+        should.not.exist(source.getCoverageInfo().getFileInfo('excluded.js'));
+    });
     it('should place counters to && logical expression', function () {
         var res = processSource([
             'var x = y && z;'

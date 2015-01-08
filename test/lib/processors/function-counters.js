@@ -1,3 +1,5 @@
+var should = require('chai').should();
+
 var Source = require('../../../lib/source');
 var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
 var escodegen = require('escodegen');
@@ -15,6 +17,15 @@ describe('FunctionCounters', function () {
         };
     }
 
+    it('should not count on excluded files', function () {
+        var source = new Source(
+            process.cwd(), process.cwd() + '/excluded.js',
+            'function t() { return 1; };',
+            ['excluded.js'], new SimpleFileSet()
+        );
+        (new FunctionCounters('s')).process(source);
+        should.not.exist(source.getCoverageInfo().getFileInfo('excluded.js'));
+    });
     it('should place counters to function declarations', function () {
         var res = processSource([
             'function f() {',
