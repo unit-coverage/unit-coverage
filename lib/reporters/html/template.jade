@@ -265,12 +265,14 @@ html
         color: #FFC66D;
       }
   body
+    - var getHashByFilename = function(filename) { return filename.replace(/[^a-z0-9]/ig, '_'); }
+
     mixin writeTreeThread(node)
       .thread
         - var level = Math.round(node.getSummary().calcTotalCoverage() * 100);
         - var status = level > 80 ? 'high' : (level > 30 ? 'medium' : 'low');
         if node.isFile()
-          a.thread-link(href=('#' + node.getPath().replace(/[^a-z0-9]/g, '_')), class='thread-' + status)
+          a.thread-link(href=('#' + getHashByFilename(node.getPath())), class='thread-' + status)
             span.thread-file
             span.thread-link-name=node.getName()
             span.thread-level=level + '%'
@@ -286,7 +288,7 @@ html
       mixin writeTreeThread(tree)
     .source
       each file in files
-        .source-file(id=file.filename.replace(/[^a-z0-9]/g, '_'))
+        .source-file(id = getHashByFilename(file.filename))
           .source-file-info
             .source-file-name=file.name
           each line in file.lines
