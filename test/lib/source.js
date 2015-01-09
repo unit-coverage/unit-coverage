@@ -26,6 +26,7 @@ describe('Source', function () {
         it('should return location info', function () {
             source.locate(1, 0).should.deep.equal({
                 filename: process.cwd() + '/tmp/file.js',
+                testName: 'default',
                 relativeFilename: 'tmp/file.js',
                 isExcluded: false,
                 line: 1,
@@ -37,6 +38,7 @@ describe('Source', function () {
             new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', ['tmp/file.js'], new SimpleFileSet())
                 .locate(1, 0).should.deep.equal({
                     filename: process.cwd() + '/tmp/file.js',
+                    testName: 'default',
                     relativeFilename: 'tmp/file.js',
                     isExcluded: true,
                     line: 1,
@@ -48,6 +50,7 @@ describe('Source', function () {
             new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', ['tmp/**'], new SimpleFileSet())
                 .locate(1, 0).should.deep.equal({
                     filename: process.cwd() + '/tmp/file.js',
+                    testName: 'default',
                     relativeFilename: 'tmp/file.js',
                     isExcluded: true,
                     line: 1,
@@ -59,6 +62,7 @@ describe('Source', function () {
             new Source(process.cwd(), process.cwd() + '/tmp/file.js', 'x++;', [/.*/], new SimpleFileSet())
                 .locate(1, 0).should.deep.equal({
                     filename: process.cwd() + '/tmp/file.js',
+                    testName: 'default',
                     relativeFilename: 'tmp/file.js',
                     isExcluded: true,
                     line: 1,
