@@ -1,3 +1,4 @@
+var should = require('chai').should();
 var StatInfo = require('../../../lib/obj/stat-info');
 
 describe('StatInfo', function () {
@@ -99,6 +100,14 @@ describe('StatInfo', function () {
 
     describe('getBranchThreadCallCount()', function () {
         it('should return given branch thread call counts', function () {
+            should.equal(
+                new StatInfo({
+                    branches: {
+                        1: [5]
+                    }
+                }).getBranchThreadCallCount(2, 0),
+                undefined
+            );
             new StatInfo({
                 branches: {
                     1: [5]

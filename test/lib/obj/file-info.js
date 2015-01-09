@@ -1,3 +1,4 @@
+var should = require('chai').should();
 var FileInfo = require('../../../lib/obj/file-info');
 var StatInfo = require('../../../lib/obj/stat-info');
 var FunctionInfo = require('../../../lib/obj/function-info');
@@ -11,6 +12,14 @@ describe('StatInfo', function () {
     var fileInfo;
     beforeEach(function () {
         fileInfo = new FileInfo({filename: '1.js', testName: '1'});
+    });
+
+    describe('constructor()', function () {
+        it('should accept no arguments', function () {
+            var fi = new FileInfo();
+            should.equal(fi.getFilename(), undefined);
+            should.equal(fi.getTestName(), undefined);
+        });
     });
 
     describe('getFilename()', function () {

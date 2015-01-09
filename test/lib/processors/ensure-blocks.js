@@ -20,6 +20,15 @@ describe('EnsureBlocks', function () {
         ].join('\n'));
     });
 
+    it('should add braces to empty "if" statement', function () {
+        processSource('if (x);').should.equal([
+            'if (x) {',
+            '    ;',
+            '} else {',
+            '}'
+        ].join('\n'));
+    });
+
     it('should not add braces to "if" statement if not needed', function () {
         processSource('if (x) { x++; } else { x--; }').should.equal([
             'if (x) {',

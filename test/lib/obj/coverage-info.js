@@ -41,6 +41,15 @@ describe('CoverageInfo', function () {
         });
     });
 
+    describe('add()', function () {
+        var fi1 = new FileInfo({filename: '1.js', testName: '1'});
+        var fi2 = new FileInfo({filename: '2.js', testName: '2'});
+        var ci = new CoverageInfo([fi1]);
+        ci.add(new CoverageInfo([fi2]));
+        ci.getFileInfo('1.js').should.equal(fi1);
+        ci.getFileInfo('2.js').should.equal(fi2);
+    });
+
     describe('calcSummary()', function () {
         it('should calc summary across all files', function () {
             var summary = CoverageInfo.fromJSON({

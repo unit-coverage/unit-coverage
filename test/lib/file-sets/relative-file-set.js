@@ -37,5 +37,10 @@ describe('RelativeFileSet', function () {
             relativeFileSet.configure({suffix: '-'});
             relativeFileSet.getTestName(root + '/file-x', root).should.equal('file');
         });
+
+        it('should support empty "suffix" option', function () {
+            relativeFileSet.configure({suffix: null});
+            relativeFileSet.getTestName(root + '/file.x', root).should.equal('file.x');
+        });
     });
 });
