@@ -15,7 +15,7 @@ describe('subprocess', function () {
 
         it('should execute subprocess', function () {
             mockStd();
-            return run(process.execPath, ['-e', 'console.error("test");']).then(function() {
+            return run(process.execPath, ['-e', 'console.error("test");']).then(function () {
                 var errors = process.stderr.write.getCall(0).args[0].toString();
                 releaseStd();
                 errors.should.equal('test\n');
@@ -24,7 +24,7 @@ describe('subprocess', function () {
 
         it('should apply quiet option', function () {
             mockStd();
-            return run(process.execPath, ['-e', 'console.error("test");'], {}, true).then(function() {
+            return run(process.execPath, ['-e', 'console.error("test");'], {}, true).then(function () {
                 var callCount = process.stderr.write.callCount;
                 releaseStd();
                 callCount.should.equal(0);
@@ -33,7 +33,7 @@ describe('subprocess', function () {
 
         it('should execute subprocess', function () {
             mockStd();
-            return run(process.execPath, ['-e', 'console.error(1);process.exit(1);']).fail(function(e) {
+            return run(process.execPath, ['-e', 'console.error(1);process.exit(1);']).fail(function (e) {
                 e.message.should.equal(
                     'Command failed: ' + process.execPath + ' -e console.error(1);process.exit(1);\n1\n'
                 );
