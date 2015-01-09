@@ -3,7 +3,6 @@ var should = require('chai').should();
 var buildTree = require('../../../lib/utils/map-tree').buildTree;
 var CoverageInfo = require('../../../lib/obj/coverage-info');
 var FileInfo = require('../../../lib/obj/file-info');
-var StatInfo = require('../../../lib/obj/stat-info');
 
 describe('map-tree', function () {
     describe('buildTree()', function () {
