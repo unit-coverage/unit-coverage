@@ -1,6 +1,6 @@
 /*jshint undef: false*/
 (function () {
-    var global = this;
+    var global = Function('return this')();
     var exportApiObjectKey = '__EXPORT_API_OBJECT__';
     var map = __MAP__;
     if (global[exportApiObjectKey]) {
