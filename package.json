@@ -24,12 +24,12 @@
     "docopt-mult-args": "0.4.2"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
+    "chai": "^2.1.0",
     "coveralls": "^2.11.1",
     "docopt-mult-args": "^0.4.0",
     "jscs": "^1.5.9",
     "jshint": "^2.5.4",
-    "mocha": "^1.21.4",
+    "mocha": "^2.1.0",
     "sinon": "^1.12.2",
     "strip-ansi": "^2.0.0"
   },
