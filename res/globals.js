@@ -1,6 +1,11 @@
 /*jshint undef: false*/
 (function () {
-    var global = this;
+    /*jshint evil: true*/
+    // Avoiding strict-mode limitations.
+    var globalFunc = new Function('return this');
+    /*jshint evil: false*/
+
+    var global = globalFunc();
     var exportApiObjectKey = '__EXPORT_API_OBJECT__';
     var map = __MAP__;
     if (global[exportApiObjectKey]) {
