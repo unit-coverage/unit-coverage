@@ -1,5 +1,5 @@
 /*jshint undef: false*/
-(function () {
+module.exports = function () {
     /*jshint evil: true*/
     // Avoiding strict-mode limitations.
     var globalFunc = new Function('return this');
@@ -108,4 +108,4 @@
             countBranch: countBranch
         };
     }
-})();
+};

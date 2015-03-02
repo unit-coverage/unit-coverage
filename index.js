@@ -2,7 +2,8 @@ module.exports = {
     Instrumenter: require('./lib/instrumenter'),
     fileSets: {
         SimpleFileSet: require('./lib/file-sets/simple-file-set'),
-        BasenameFileSet: require('./lib/file-sets/basename-file-set')
+        BasenameFileSet: require('./lib/file-sets/basename-file-set'),
+        RelativeFileSet: require('./lib/file-sets/relative-file-set')
     },
     reporters: {
         summary: require('./lib/reporters/summary'),
