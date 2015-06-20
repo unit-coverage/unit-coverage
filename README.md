@@ -90,7 +90,7 @@ Available `File Sets`:
 
 Mode `relative` has several options:
 
-* `sources` directory where are the tests located (project root if omitted).
+* `sources` directory where are the sources located (project root if omitted).
 * `tests` directory where are the tests located (project root if omitted).
 * `suffix` suffix, which will be removed from file names during the match.
 
@@ -171,7 +171,7 @@ Options:
 
   -d --driver=<driver>         Specifies driver [default: mocha].
 
-  -r --reporter=<name>         Reporer name: html, lcov, summary, teamcity, clover, tree [default: tree].
+  -r --reporter=<name>         Reporter name: html, lcov, summary, teamcity, clover, tree [default: tree].
 
   -o --output=<filename>       Report output filename.
 
