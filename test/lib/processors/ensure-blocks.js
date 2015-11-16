@@ -1,13 +1,13 @@
 var EnsureBlocks = require('../../../lib/processors/ensure-blocks');
 var Source = require('../../../lib/source');
 var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
-var escodegen = require('escodegen');
+var javascript = require('../../../lib/javascript');
 
 describe('EnsureBlocks', function () {
     function processSource(code) {
         var source = new Source(process.cwd(), process.cwd() + '/1.js', code, [], new SimpleFileSet());
         (new EnsureBlocks()).process(source);
-        return escodegen.generate(source.getAst());
+        return javascript.generate(source.getAst());
     }
 
     it('should add braces to "if" statement', function () {
@@ -24,8 +24,7 @@ describe('EnsureBlocks', function () {
         processSource('if (x);').should.equal([
             'if (x) {',
             '    ;',
-            '} else {',
-            '}'
+            '} else {}'
         ].join('\n'));
     });
 

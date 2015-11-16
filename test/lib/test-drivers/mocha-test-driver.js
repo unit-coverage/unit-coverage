@@ -1,6 +1,6 @@
 var path = require('path');
 var sinon = require('sinon');
-var escodegen = require('escodegen');
+var javascript = require('../../../lib/javascript');
 var subprocess = require('../../../lib/utils/subprocess');
 var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
 var Source = require('../../../lib/source');
@@ -13,15 +13,13 @@ describe('MochaPhantomTestDriver', function () {
             var testDriver = new MochaTestDriver();
             testDriver.configure({apiObjectName: 'api'});
             testDriver.process(source);
-            var code = escodegen.generate(source.getAst());
+            var code = javascript.generate(source.getAst());
             code.should.equal([
                 'x++;',
-                'if (typeof mocha !== \'undefined\') {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
+                'if (typeof mocha !== "undefined") {',
+                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                '    before(api.initialize);after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -37,22 +35,20 @@ describe('MochaPhantomTestDriver', function () {
             var testDriver = new MochaTestDriver();
             testDriver.configure({apiObjectName: 'api'});
             testDriver.process(source);
-            var code = escodegen.generate(source.getAst());
+            var code = javascript.generate(source.getAst());
             code.should.equal([
-                'describe(\'test\', function () {',
+                'describe("test", function () {',
                 '    before(function () {',
-                '        api.beginTest(\'default\');',
+                '        api.beginTest("default");',
                 '    });',
                 '    after(function () {',
                 '        api.endTest();',
                 '    });',
                 '});',
-                'if (typeof mocha !== \'undefined\') {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
+                'if (typeof mocha !== "undefined") {',
+                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                '    before(api.initialize);after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -68,24 +64,20 @@ describe('MochaPhantomTestDriver', function () {
             var testDriver = new MochaTestDriver();
             testDriver.configure({apiObjectName: 'api'});
             testDriver.process(source);
-            var code = escodegen.generate(source.getAst());
+            var code = javascript.generate(source.getAst());
             code.should.equal([
-                'describe(\'test\', function () {',
+                'describe("test", function () {',
                 '    before(function () {',
-                '        api.beginTest(\'default\');',
+                '        api.beginTest("default");',
                 '    });',
                 '    after(function () {',
                 '        api.endTest();',
                 '    });',
-                '});',
-                'describe(\'test\', function () {',
-                '});',
-                'if (typeof mocha !== \'undefined\') {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
+                '});describe("test", function () {});',
+                'if (typeof mocha !== "undefined") {',
+                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                '    before(api.initialize);after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -101,16 +93,13 @@ describe('MochaPhantomTestDriver', function () {
             var testDriver = new MochaTestDriver();
             testDriver.configure({apiObjectName: 'api'});
             testDriver.process(source);
-            var code = escodegen.generate(source.getAst());
+            var code = javascript.generate(source.getAst());
             code.should.equal([
-                'describe1(\'test\', function () {',
-                '});',
-                'if (typeof mocha !== \'undefined\') {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
+                'describe1("test", function () {});',
+                'if (typeof mocha !== "undefined") {',
+                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                '    before(api.initialize);after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -126,16 +115,13 @@ describe('MochaPhantomTestDriver', function () {
             var testDriver = new MochaTestDriver();
             testDriver.configure({apiObjectName: 'api'});
             testDriver.process(source);
-            var code = escodegen.generate(source.getAst());
+            var code = javascript.generate(source.getAst());
             code.should.equal([
-                'x.describe(\'test\', function () {',
-                '});',
-                'if (typeof mocha !== \'undefined\') {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
+                'x.describe("test", function () {});',
+                'if (typeof mocha !== "undefined") {',
+                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                '    before(api.initialize);after(api.save);',
                 '}'
             ].join('\n'));
         });

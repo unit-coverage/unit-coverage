@@ -2,7 +2,7 @@ var should = require('chai').should();
 
 var Source = require('../../../lib/source');
 var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
-var escodegen = require('escodegen');
+var javascript = require('../../../lib/javascript');
 var FunctionCounters = require('../../../lib/processors/function-counters');
 
 var File = require('enb-source-map/lib/file');
@@ -12,7 +12,7 @@ describe('FunctionCounters', function () {
         var source = new Source(process.cwd(), process.cwd() + '/1.js', code, [], new SimpleFileSet());
         (new FunctionCounters('s')).process(source);
         return {
-            code: escodegen.generate(source.getAst()),
+            code: javascript.generate(source.getAst()),
             coverageInfo: source.getCoverageInfo()
         };
     }
@@ -43,7 +43,8 @@ describe('FunctionCounters', function () {
         fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
         res.code.should.equal([
             'function f() {',
-            '    s.countFunction(\'1.js\', 1);',
+            '    s.countFunction("1.js", 1);',
+            '',
             '    return 1;',
             '}'
         ].join('\n'));
@@ -66,7 +67,8 @@ describe('FunctionCounters', function () {
         fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
         res.code.should.equal([
             'var f = function () {',
-            '    s.countFunction(\'1.js\', 1);',
+            '    s.countFunction("1.js", 1);',
+            '',
             '    return 1;',
             '};'
         ].join('\n'));
@@ -89,7 +91,8 @@ describe('FunctionCounters', function () {
         fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
         res.code.should.equal([
             'var f = function x() {',
-            '    s.countFunction(\'1.js\', 1);',
+            '    s.countFunction("1.js", 1);',
+            '',
             '    return 1;',
             '};'
         ].join('\n'));

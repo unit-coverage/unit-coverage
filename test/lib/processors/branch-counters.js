@@ -2,7 +2,7 @@ var should = require('chai').should();
 
 var Source = require('../../../lib/source');
 var FileSet = require('../../../lib/file-sets/simple-file-set');
-var escodegen = require('escodegen');
+var javascript = require('../../../lib/javascript');
 var BranchCounters = require('../../../lib/processors/branch-counters');
 var EnsureBlocks = require('../../../lib/processors/ensure-blocks');
 
@@ -12,7 +12,7 @@ describe('BranchCounters', function () {
         (new EnsureBlocks()).process(source);
         (new BranchCounters('s')).process(source);
         return {
-            code: escodegen.generate(source.getAst()),
+            code: javascript.generate(source.getAst()),
             coverageInfo: source.getCoverageInfo()
         };
     }
@@ -59,7 +59,7 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchIds().should.deep.equal([1]);
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
-            'var x = s.countBranch(\'1.js\', 1, 0, 1, y) && z;'
+            'var x = s.countBranch("1.js", 1, 0, 1, y) && z;'
         ].join('\n'));
     });
 
@@ -94,7 +94,7 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchIds().should.deep.equal([1]);
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
-            'var x = s.countBranch(\'1.js\', 1, 1, 0, y) || z;'
+            'var x = s.countBranch("1.js", 1, 1, 0, y) || z;'
         ].join('\n'));
     });
 
@@ -129,7 +129,7 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchIds().should.deep.equal([1]);
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
-            'var x = s.countBranch(\'1.js\', 1, 0, 1, y) ? z : w;'
+            'var x = s.countBranch("1.js", 1, 0, 1, y) ? z : w;'
         ].join('\n'));
     });
 
@@ -169,10 +169,12 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
             'if (x) {',
-            '    s.countBranch(\'1.js\', 1, 0);',
+            '    s.countBranch("1.js", 1, 0);',
+            '',
             '    x++;',
             '} else {',
-            '    s.countBranch(\'1.js\', 1, 1);',
+            '    s.countBranch("1.js", 1, 1);',
+            '',
             '    x--;',
             '}'
         ].join('\n'));
@@ -210,10 +212,10 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
             'if (x) {',
-            '    s.countBranch(\'1.js\', 1, 0);',
+            '    s.countBranch("1.js", 1, 0);',
             '    ;',
             '} else {',
-            '    s.countBranch(\'1.js\', 1, 1);',
+            '    s.countBranch("1.js", 1, 1);',
             '}'
         ].join('\n'));
     });
@@ -250,10 +252,10 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1]);
         res.code.should.equal([
             'if (x) {',
-            '    s.countBranch(\'1.js\', 1, 0);',
+            '    s.countBranch("1.js", 1, 0);',
             '    x++;',
             '} else {',
-            '    s.countBranch(\'1.js\', 1, 1);',
+            '    s.countBranch("1.js", 1, 1);',
             '}'
         ].join('\n'));
     });
@@ -315,20 +317,24 @@ describe('BranchCounters', function () {
         fi.getStatInfo().getBranchThreadIds(1).should.deep.equal([0, 1, 2, 3]);
         res.code.should.equal([
             'switch (x) {',
-            'case 1:',
-            '    s.countBranch(\'1.js\', 1, 0);',
-            '    x++;',
-            '    break;',
-            'case 2:',
-            '    s.countBranch(\'1.js\', 1, 1);',
-            'case 3:',
-            '    s.countBranch(\'1.js\', 1, 2);',
-            '    x--;',
-            '    break;',
-            'default:',
-            '    s.countBranch(\'1.js\', 1, 3);',
-            '    x = 0;',
-            '    break;',
+            '    case 1:',
+            '        s.countBranch("1.js", 1, 0);',
+            '',
+            '        x++;',
+            '        break;',
+            '    case 2:',
+            '        s.countBranch("1.js", 1, 1);',
+            '',
+            '    case 3:',
+            '        s.countBranch("1.js", 1, 2);',
+            '',
+            '        x--;',
+            '        break;',
+            '    default:',
+            '        s.countBranch("1.js", 1, 3);',
+            '',
+            '        x = 0;',
+            '        break;',
             '}'
         ].join('\n'));
     });

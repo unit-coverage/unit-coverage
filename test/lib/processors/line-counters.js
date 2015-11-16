@@ -2,7 +2,7 @@ var should = require('chai').should();
 
 var Source = require('../../../lib/source');
 var SimpleFileSet = require('../../../lib/file-sets/simple-file-set');
-var escodegen = require('escodegen');
+var javascript = require('../../../lib/javascript');
 var LineCounters = require('../../../lib/processors/line-counters');
 
 describe('LineCounters', function () {
@@ -10,7 +10,7 @@ describe('LineCounters', function () {
         var source = new Source(process.cwd(), process.cwd() + '/1.js', code, [], new SimpleFileSet());
         (new LineCounters('s')).process(source);
         return {
-            code: escodegen.generate(source.getAst()),
+            code: javascript.generate(source.getAst()),
             coverageInfo: source.getCoverageInfo()
         };
     }
@@ -30,9 +30,9 @@ describe('LineCounters', function () {
         var fi = res.coverageInfo.getFileInfo('1.js');
         fi.getStatInfo().getLineNumbers().should.deep.equal([1, 2]);
         res.code.should.equal([
-            's.countLine(\'1.js\', 1);',
+            's.countLine("1.js", 1);',
             'var x = 1;',
-            's.countLine(\'1.js\', 2);',
+            's.countLine("1.js", 2);',
             'x++;'
         ].join('\n'));
     });
@@ -46,11 +46,12 @@ describe('LineCounters', function () {
         var fi = res.coverageInfo.getFileInfo('1.js');
         fi.getStatInfo().getLineNumbers().should.deep.equal([1, 2, 3]);
         res.code.should.equal([
-            's.countLine(\'1.js\', 1);',
+            's.countLine("1.js", 1);',
             'function f() {',
-            '    s.countLine(\'1.js\', 2);',
+            '    s.countLine("1.js", 2);',
+            '',
             '    var x = 1;',
-            '    s.countLine(\'1.js\', 3);',
+            '    s.countLine("1.js", 3);',
             '    x++;',
             '}'
         ].join('\n'));
@@ -68,16 +69,18 @@ describe('LineCounters', function () {
         var fi = res.coverageInfo.getFileInfo('1.js');
         fi.getStatInfo().getLineNumbers().should.deep.equal([1, 3, 4, 6]);
         res.code.should.equal([
-            's.countLine(\'1.js\', 1);',
+            's.countLine("1.js", 1);',
             'switch (val) {',
-            'case 1:',
-            '    s.countLine(\'1.js\', 3);',
-            '    val++;',
-            '    s.countLine(\'1.js\', 4);',
-            '    break;',
-            'case 2:',
-            '    s.countLine(\'1.js\', 6);',
-            '    break;',
+            '    case 1:',
+            '        s.countLine("1.js", 3);',
+            '',
+            '        val++;',
+            '        s.countLine("1.js", 4);',
+            '        break;',
+            '    case 2:',
+            '        s.countLine("1.js", 6);',
+            '',
+            '        break;',
             '}'
         ].join('\n'));
     });

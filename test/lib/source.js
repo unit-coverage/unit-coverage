@@ -72,8 +72,8 @@ describe('Source', function () {
     });
 
     describe('getAst()', function () {
-        it('should return esprima Program node', function () {
-            source.getAst().type.should.equal('Program');
+        it('should return esprima File node', function () {
+            source.getAst().type.should.equal('File');
         });
     });
 
