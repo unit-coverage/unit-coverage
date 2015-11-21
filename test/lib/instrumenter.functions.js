@@ -2,6 +2,7 @@ var Instrumenter = require('../../lib/instrumenter');
 var BasenameFileSet = require('../../lib/file-sets/basename-file-set');
 var utils = require('./../_utils');
 var vm = require('vm');
+var babelCode = require('babel-core');
 
 var CoverageInfo = require('../../lib/obj/coverage-info');
 
@@ -18,7 +19,13 @@ describe('Instrumenter', function () {
         });
 
         function run(code) {
-            vm.runInThisContext(instrumenter.instrument(code.join('\n'), __dirname + '/code.js'));
+            var transformationResult = babelCode.transform(
+                instrumenter.instrument(code.join('\n'), __dirname + '/code.js'),
+                {
+                    presets: ['es2015', 'react']
+                }
+            ).code;
+            vm.runInThisContext(transformationResult);
             var coverageInfo = CoverageInfo.fromJSON(utils.getMap());
             return coverageInfo.getFileInfo('code.js');
         }
@@ -110,5 +117,6 @@ describe('Instrumenter', function () {
             res.getFunctionInfo(2).getName().should.equal('(anonymous_2)');
             res.getFunctionInfo(2).getLocation().start.line.should.equal(2);
         });
+
     });
 });

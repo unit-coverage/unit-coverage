@@ -16,10 +16,13 @@ describe('MochaPhantomTestDriver', function () {
             var code = javascript.generate(source.getAst());
             code.should.equal([
                 'x++;',
+                '',
                 'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
+                '    mocha.suite.beforeAll(api.initialize);',
+                '    mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);after(api.save);',
+                '    before(api.initialize);',
+                '    after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -45,10 +48,13 @@ describe('MochaPhantomTestDriver', function () {
                 '        api.endTest();',
                 '    });',
                 '});',
+                '',
                 'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
+                '    mocha.suite.beforeAll(api.initialize);',
+                '    mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);after(api.save);',
+                '    before(api.initialize);',
+                '    after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -73,11 +79,15 @@ describe('MochaPhantomTestDriver', function () {
                 '    after(function () {',
                 '        api.endTest();',
                 '    });',
-                '});describe("test", function () {});',
+                '});',
+                'describe("test", function () {});',
+                '',
                 'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
+                '    mocha.suite.beforeAll(api.initialize);',
+                '    mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);after(api.save);',
+                '    before(api.initialize);',
+                '    after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -96,10 +106,13 @@ describe('MochaPhantomTestDriver', function () {
             var code = javascript.generate(source.getAst());
             code.should.equal([
                 'describe1("test", function () {});',
+                '',
                 'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
+                '    mocha.suite.beforeAll(api.initialize);',
+                '    mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);after(api.save);',
+                '    before(api.initialize);',
+                '    after(api.save);',
                 '}'
             ].join('\n'));
         });
@@ -118,10 +131,13 @@ describe('MochaPhantomTestDriver', function () {
             var code = javascript.generate(source.getAst());
             code.should.equal([
                 'x.describe("test", function () {});',
+                '',
                 'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);mocha.suite.afterAll(api.save);',
+                '    mocha.suite.beforeAll(api.initialize);',
+                '    mocha.suite.afterAll(api.save);',
                 '} else {',
-                '    before(api.initialize);after(api.save);',
+                '    before(api.initialize);',
+                '    after(api.save);',
                 '}'
             ].join('\n'));
         });

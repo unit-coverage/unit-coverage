@@ -47,9 +47,9 @@ describe('LineCounters', function () {
         fi.getStatInfo().getLineNumbers().should.deep.equal([1, 2, 3]);
         res.code.should.equal([
             's.countLine("1.js", 1);',
+            '',
             'function f() {',
             '    s.countLine("1.js", 2);',
-            '',
             '    var x = 1;',
             '    s.countLine("1.js", 3);',
             '    x++;',
@@ -70,16 +70,16 @@ describe('LineCounters', function () {
         fi.getStatInfo().getLineNumbers().should.deep.equal([1, 3, 4, 6]);
         res.code.should.equal([
             's.countLine("1.js", 1);',
+            '',
             'switch (val) {',
             '    case 1:',
             '        s.countLine("1.js", 3);',
-            '',
             '        val++;',
             '        s.countLine("1.js", 4);',
             '        break;',
+            '',
             '    case 2:',
             '        s.countLine("1.js", 6);',
-            '',
             '        break;',
             '}'
         ].join('\n'));

@@ -56,7 +56,9 @@ describe('EnsureBlocks', function () {
 
     it('should add braces to "for ... in" statement', function () {
         processSource('for (var i in {a: 1}) x--;').should.equal([
-            'for (var i in { a: 1 }) {',
+            'for (var i in {',
+            '    a: 1',
+            '}) {',
             '    x--;',
             '}'
         ].join('\n'));

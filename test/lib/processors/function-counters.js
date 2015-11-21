@@ -44,7 +44,6 @@ describe('FunctionCounters', function () {
         res.code.should.equal([
             'function f() {',
             '    s.countFunction("1.js", 1);',
-            '',
             '    return 1;',
             '}'
         ].join('\n'));
@@ -68,7 +67,6 @@ describe('FunctionCounters', function () {
         res.code.should.equal([
             'var f = function () {',
             '    s.countFunction("1.js", 1);',
-            '',
             '    return 1;',
             '};'
         ].join('\n'));
@@ -92,7 +90,6 @@ describe('FunctionCounters', function () {
         res.code.should.equal([
             'var f = function x() {',
             '    s.countFunction("1.js", 1);',
-            '',
             '    return 1;',
             '};'
         ].join('\n'));
