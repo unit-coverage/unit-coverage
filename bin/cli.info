@@ -38,7 +38,7 @@ Options:
 
   -p --profile=<profile>       Reads profile from "package.json".
 
-  -S --set=<set>               File set. Test name source for input files [default: basename].
+  -S --set=<set>               File set. Test name source for input files [default: simple].
 
   -O --set-opt <name>=<val>    File set option.
 
