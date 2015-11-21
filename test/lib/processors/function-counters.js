@@ -151,4 +151,104 @@ describe('FunctionCounters', function () {
         f1.getLocation().start.column.should.equal(9);
         f1.getLocation().end.line.should.equal(4);
     });
+
+    it('should place counters to class constructors', function () {
+        var res = processSource([
+            'class Hello {',
+            '    constructor() {}',
+            '}'
+        ].join('\n'));
+        var fi = res.coverageInfo.getFileInfo('1.js');
+        fi.getFunctionIds().should.deep.equal([1]);
+        fi.getFunctionInfo(1).getName().should.equal('Hello::constructor');
+        fi.getFunctionInfo(1).getLocation().should.deep.equal({
+            start: {line: 2, column: 4},
+            end: {line: 2, column: 20}
+        });
+        fi.getFunctionInfo(1).getId().should.equal(1);
+        fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
+        res.code.should.equal([
+            'class Hello {',
+            '    constructor() {',
+            '        s.countFunction("1.js", 1);',
+            '    }',
+            '',
+            '}'
+        ].join('\n'));
+    });
+
+    it('should place counters to class methods', function () {
+        var res = processSource([
+            'class Hello {',
+            '    method() {}',
+            '}'
+        ].join('\n'));
+        var fi = res.coverageInfo.getFileInfo('1.js');
+        fi.getFunctionIds().should.deep.equal([1]);
+        fi.getFunctionInfo(1).getName().should.equal('Hello::method');
+        fi.getFunctionInfo(1).getLocation().should.deep.equal({
+            start: {line: 2, column: 4},
+            end: {line: 2, column: 15}
+        });
+        fi.getFunctionInfo(1).getId().should.equal(1);
+        fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
+        res.code.should.equal([
+            'class Hello {',
+            '    method() {',
+            '        s.countFunction("1.js", 1);',
+            '    }',
+            '',
+            '}'
+        ].join('\n'));
+    });
+
+    it('should place counters to class getters', function () {
+        var res = processSource([
+            'class Hello {',
+            '    get prop() {}',
+            '}'
+        ].join('\n'));
+        var fi = res.coverageInfo.getFileInfo('1.js');
+        fi.getFunctionIds().should.deep.equal([1]);
+        fi.getFunctionInfo(1).getName().should.equal('Hello::prop(get)');
+        fi.getFunctionInfo(1).getLocation().should.deep.equal({
+            start: {line: 2, column: 4},
+            end: {line: 2, column: 17}
+        });
+        fi.getFunctionInfo(1).getId().should.equal(1);
+        fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
+        res.code.should.equal([
+            'class Hello {',
+            '    get prop() {',
+            '        s.countFunction("1.js", 1);',
+            '    }',
+            '',
+            '}'
+        ].join('\n'));
+    });
+
+    it('should place counters to class setters', function () {
+        var res = processSource([
+            'class Hello {',
+            '    set prop(val) {}',
+            '}'
+        ].join('\n'));
+        var fi = res.coverageInfo.getFileInfo('1.js');
+        fi.getFunctionIds().should.deep.equal([1]);
+        fi.getFunctionInfo(1).getName().should.equal('Hello::prop(set)');
+        fi.getFunctionInfo(1).getLocation().should.deep.equal({
+            start: {line: 2, column: 4},
+            end: {line: 2, column: 20}
+        });
+        fi.getFunctionInfo(1).getId().should.equal(1);
+        fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
+        res.code.should.equal([
+            'class Hello {',
+            '    set prop(val) {',
+            '        s.countFunction("1.js", 1);',
+            '    }',
+            '',
+            '}'
+        ].join('\n'));
+    });
 });
