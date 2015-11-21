@@ -7,6 +7,7 @@ var babelCode = require('babel-core');
 var CoverageInfo = require('../../lib/obj/coverage-info');
 
 describe('Instrumenter', function () {
+    this.timeout(5000);
     describe('functions', function () {
         var instrumenter;
 
@@ -118,5 +119,28 @@ describe('Instrumenter', function () {
             res.getFunctionInfo(2).getLocation().start.line.should.equal(2);
         });
 
+
+        it('should instrument arrow function expressions', function () {
+            var res = run([
+                'var a = () => {',
+                'return 1;',
+                '}',
+                'var b = () => {}',
+                'var c = () => {}',
+                'b();'
+            ]);
+
+            res.getStatInfo().getFunctionIds().should.deep.equal([1, 2, 3]);
+            res.getStatInfo().getFunctionCallCount(1).should.equal(0);
+            res.getStatInfo().getFunctionCallCount(2).should.equal(1);
+            res.getStatInfo().getFunctionCallCount(3).should.equal(0);
+
+            res.getFunctionInfo(1).getName().should.equal('(anonymous_1)');
+            res.getFunctionInfo(1).getLocation().start.line.should.equal(1);
+            res.getFunctionInfo(2).getName().should.equal('(anonymous_2)');
+            res.getFunctionInfo(2).getLocation().start.line.should.equal(4);
+            res.getFunctionInfo(3).getName().should.equal('(anonymous_3)');
+            res.getFunctionInfo(3).getLocation().start.line.should.equal(5);
+        });
     });
 });

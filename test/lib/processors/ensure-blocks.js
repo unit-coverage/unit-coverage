@@ -79,4 +79,12 @@ describe('EnsureBlocks', function () {
             '}'
         ].join('\n'));
     });
+
+    it('should add braces to arrow function', function () {
+        processSource('x = () => 1;').should.equal([
+            'x = () => {',
+            '    return 1;',
+            '};'
+        ].join('\n'));
+    });
 });

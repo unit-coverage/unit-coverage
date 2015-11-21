@@ -72,6 +72,29 @@ describe('FunctionCounters', function () {
         ].join('\n'));
     });
 
+    it('should place counters to arrow function expressions', function () {
+        var res = processSource([
+            'var f = () => {',
+            '    return 1;',
+            '};'
+        ].join('\n'));
+        var fi = res.coverageInfo.getFileInfo('1.js');
+        fi.getFunctionIds().should.deep.equal([1]);
+        fi.getFunctionInfo(1).getName().should.equal('(anonymous_1)');
+        fi.getFunctionInfo(1).getLocation().should.deep.equal({
+            start: {line: 1, column: 8},
+            end: {line: 3, column: 1}
+        });
+        fi.getFunctionInfo(1).getId().should.equal(1);
+        fi.getStatInfo().getFunctionIds().should.deep.equal([1]);
+        res.code.should.equal([
+            'var f = () => {',
+            '    s.countFunction("1.js", 1);',
+            '    return 1;',
+            '};'
+        ].join('\n'));
+    });
+
     it('should place counters to named function expressions', function () {
         var res = processSource([
             'var f = function x() {',
