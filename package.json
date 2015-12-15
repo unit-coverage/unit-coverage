@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "author": "Marat Dulin",
-  "repository": "https://github.com/mdevils/unit-coverage",
+  "repository": "https://github.com/unit-coverage/unit-coverage",
   "license": "MIT",
   "bin": {
     "unit-coverage": "bin/unit-coverage.js"

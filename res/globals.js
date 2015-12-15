@@ -96,6 +96,7 @@ module.exports = function () {
 
         // Export as API
         global[exportApiObjectKey] = {
+            data: map,
             getCoverageData: function () {
                 return map;
             },

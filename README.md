@@ -1,6 +1,6 @@
 # unit-coverage
 
-[![Build Status](https://travis-ci.org/mdevils/unit-coverage.svg?branch=master)](https://travis-ci.org/mdevils/unit-coverage) [![Coverage Status](https://coveralls.io/repos/mdevils/unit-coverage/badge.png?branch=master)](https://coveralls.io/r/mdevils/unit-coverage?branch=master) [![Dependency Status](https://david-dm.org/mdevils/unit-coverage.svg)](https://david-dm.org/mdevils/unit-coverage) [![devDependency Status](https://david-dm.org/mdevils/unit-coverage/dev-status.svg)](https://david-dm.org/mdevils/unit-coverage#info=devDependencies)
+[![Build Status](https://travis-ci.org/unit-coverage/unit-coverage.svg?branch=master)](https://travis-ci.org/unit-coverage/unit-coverage) [![Coverage Status](https://coveralls.io/repos/unit-coverage/unit-coverage/badge.png?branch=master)](https://coveralls.io/r/unit-coverage/unit-coverage?branch=master) [![Dependency Status](https://david-dm.org/unit-coverage/unit-coverage.svg)](https://david-dm.org/unit-coverage/unit-coverage) [![devDependency Status](https://david-dm.org/unit-coverage/unit-coverage/dev-status.svg)](https://david-dm.org/unit-coverage/unit-coverage#info=devDependencies)
 
 Coverage toolkit designed to collect coverage information separately for each test.
 
@@ -48,13 +48,13 @@ Here `unit-coverage` have its own answer: **coverage must represent the quality 
 
 This is example how **most coverage tools** work:
 
-![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/single-other.png)
+![](https://raw.githubusercontent.com/unit-coverage/unit-coverage/master/doc/single-other.png)
 
 You only have test for the class `A`, but receive coverage from used but not tested classes: `B` and `C`.
 
 When later you introduce the tests for `B` and `C`, you get a mess:
 
-![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/multiple-other.png)
+![](https://raw.githubusercontent.com/unit-coverage/unit-coverage/master/doc/multiple-other.png)
 
 In this report you cannot say: how good is the test for `A`? How good is the test for `B`?
 And what about the `C`-test?
@@ -62,11 +62,11 @@ And what about the `C`-test?
 With `unit-coverage` we implemented another strategy. Having a single test for `A` you only get a report
 containing `A`-coverage information:
 
-![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/single-unit-coverage.png)
+![](https://raw.githubusercontent.com/unit-coverage/unit-coverage/master/doc/single-unit-coverage.png)
 
 And when you fill up your project with more tests:
 
-![](https://raw.githubusercontent.com/mdevils/unit-coverage/master/doc/multiple-unit-coverage.png)
+![](https://raw.githubusercontent.com/unit-coverage/unit-coverage/master/doc/multiple-unit-coverage.png)
 
 You still get desired coverage information.
 

@@ -9,7 +9,7 @@ describe('Instrumenter', function () {
     describe('constructor()', function () {
         it('should accept empty options', function () {
             var instrumenter = new Instrumenter(new BasenameFileSet(), process.cwd());
-            instrumenter.getApiObjectName().should.equal('__unitCoverage__');
+            instrumenter.getApiObjectName().should.equal('__coverage__');
         });
 
         it('should accept empty sourceRoot', function () {
