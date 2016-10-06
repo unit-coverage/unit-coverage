@@ -17,12 +17,14 @@ describe('MochaPhantomTestDriver', function () {
             code.should.equal([
                 'x++;',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -49,12 +51,14 @@ describe('MochaPhantomTestDriver', function () {
                 '    });',
                 '});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -82,12 +86,14 @@ describe('MochaPhantomTestDriver', function () {
                 '});',
                 'describe("test", function () {});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -107,12 +113,14 @@ describe('MochaPhantomTestDriver', function () {
             code.should.equal([
                 'describe1("test", function () {});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -132,12 +140,14 @@ describe('MochaPhantomTestDriver', function () {
             code.should.equal([
                 'x.describe("test", function () {});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });

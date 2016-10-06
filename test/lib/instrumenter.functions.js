@@ -119,7 +119,6 @@ describe('Instrumenter', function () {
             res.getFunctionInfo(2).getLocation().start.line.should.equal(2);
         });
 
-
         it('should instrument arrow function expressions', function () {
             var res = run([
                 'var a = () => {',
@@ -182,6 +181,47 @@ describe('Instrumenter', function () {
             res.getFunctionInfo(6).getName().should.equal('Hello::prop1(set)');
             res.getFunctionInfo(6).getLocation().start.line.should.equal(7);
             res.getFunctionInfo(7).getName().should.equal('Hello::prop2(set)');
+            res.getFunctionInfo(7).getLocation().start.line.should.equal(8);
+        });
+
+        it('should instrument anonymous classes', function () {
+            var res = run([
+                'var hello = new class {',
+                '    constructor() {}',
+                '    method1() {}',
+                '    method2() {}',
+                '    get prop1() {}',
+                '    get prop2() {}',
+                '    set prop1(value) {}',
+                '    set prop2(value) {}',
+                '};',
+                'hello.method1();',
+                'var val = hello.prop1;',
+                'hello.prop1 = 123;'
+            ]);
+
+            res.getStatInfo().getFunctionIds().should.deep.equal([1, 2, 3, 4, 5, 6, 7]);
+            res.getStatInfo().getFunctionCallCount(1).should.equal(1);
+            res.getStatInfo().getFunctionCallCount(2).should.equal(1);
+            res.getStatInfo().getFunctionCallCount(3).should.equal(0);
+            res.getStatInfo().getFunctionCallCount(4).should.equal(1);
+            res.getStatInfo().getFunctionCallCount(5).should.equal(0);
+            res.getStatInfo().getFunctionCallCount(6).should.equal(1);
+            res.getStatInfo().getFunctionCallCount(7).should.equal(0);
+
+            res.getFunctionInfo(1).getName().should.equal('(anonymous_class_1)::constructor');
+            res.getFunctionInfo(1).getLocation().start.line.should.equal(2);
+            res.getFunctionInfo(2).getName().should.equal('(anonymous_class_1)::method1');
+            res.getFunctionInfo(2).getLocation().start.line.should.equal(3);
+            res.getFunctionInfo(3).getName().should.equal('(anonymous_class_1)::method2');
+            res.getFunctionInfo(3).getLocation().start.line.should.equal(4);
+            res.getFunctionInfo(4).getName().should.equal('(anonymous_class_1)::prop1(get)');
+            res.getFunctionInfo(4).getLocation().start.line.should.equal(5);
+            res.getFunctionInfo(5).getName().should.equal('(anonymous_class_1)::prop2(get)');
+            res.getFunctionInfo(5).getLocation().start.line.should.equal(6);
+            res.getFunctionInfo(6).getName().should.equal('(anonymous_class_1)::prop1(set)');
+            res.getFunctionInfo(6).getLocation().start.line.should.equal(7);
+            res.getFunctionInfo(7).getName().should.equal('(anonymous_class_1)::prop2(set)');
             res.getFunctionInfo(7).getLocation().start.line.should.equal(8);
         });
     });

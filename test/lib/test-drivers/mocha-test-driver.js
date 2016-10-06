@@ -17,12 +17,14 @@ describe('MochaTestDriver', function () {
             code.should.equal([
                 'x++;',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -49,12 +51,14 @@ describe('MochaTestDriver', function () {
                 '    });',
                 '});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -82,12 +86,14 @@ describe('MochaTestDriver', function () {
                 '});',
                 'describe("test", function () {});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -107,12 +113,14 @@ describe('MochaTestDriver', function () {
             code.should.equal([
                 'describe1("test", function () {});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -132,12 +140,14 @@ describe('MochaTestDriver', function () {
             code.should.equal([
                 'x.describe("test", function () {});',
                 '',
-                'if (typeof mocha !== "undefined") {',
-                '    mocha.suite.beforeAll(api.initialize);',
-                '    mocha.suite.afterAll(api.save);',
-                '} else {',
-                '    before(api.initialize);',
-                '    after(api.save);',
+                'if (typeof api !== "undefined") {',
+                '    if (typeof mocha !== "undefined") {',
+                '        mocha.suite.beforeAll(api.initialize);',
+                '        mocha.suite.afterAll(api.save);',
+                '    } else {',
+                '        before(api.initialize);',
+                '        after(api.save);',
+                '    }',
                 '}'
             ].join('\n'));
         });
@@ -159,9 +169,9 @@ describe('MochaTestDriver', function () {
             var args = subprocess.run.getCall(0).args;
             args[0].should.equal('node_modules/.bin/mocha');
             args[1].should.deep.equal([
-                '--compilers',
-                'js:' + path.resolve(__dirname, '../../../lib/require-replacement.js'),
-                'test'
+                'test',
+                '--require',
+                path.resolve(__dirname, '../../../lib/require-replacement.js')
             ]);
             args[2].should.deep.equal({
                 outputFilename: 'out',
@@ -180,9 +190,9 @@ describe('MochaTestDriver', function () {
             var args = subprocess.run.getCall(0).args;
             args[0].should.equal('mocha');
             args[1].should.deep.equal([
-                '--compilers',
-                'js:' + path.resolve(__dirname, '../../../lib/require-replacement.js'),
-                'test'
+                'test',
+                '--require',
+                path.resolve(__dirname, '../../../lib/require-replacement.js')
             ]);
             args[2].should.deep.equal({
                 outputFilename: 'out',
