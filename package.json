@@ -18,7 +18,7 @@
     "enb-source-map": "^1.4.0",
     "html-entities": "^1.0.10",
     "jade": "^1.5.0",
-    "minimatch": "^2.0.1",
+    "minimatch": "^3.0.4",
     "vow": "^0.4.5",
     "vow-fs": "^0.3.2"
   },
