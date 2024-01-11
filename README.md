@@ -6,7 +6,7 @@ Coverage toolkit designed to collect coverage information separately for each te
 
 Unlike most coverage tools, `unit-coverage` keeps connection between source file and its test file.
 For each source file coverage is beeing computed only when its tests are running.
-This ensures you have correct test coverage for each file beeing tested.
+This ensures you have correct test coverage for each file being tested.
 
 For example you have file `source.js` and its test: `source.test.js`.
 `unit-coverage` collects coverage for `source.js` only when `source.test.js` is running.
